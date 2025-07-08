@@ -17,11 +17,9 @@ class SoundService {
 	}
 
 	void play(Beat beat) throws Exception {
-		addEvent(ShortMessage.PROGRAM_CHANGE, 1, 0);
 		for (Integer tick : beat.ticks()) {
 			addTick(tick);
 		}
-		addEvent(ShortMessage.PROGRAM_CHANGE, 1, 16);
 
 		sequencer.setSequence(sequence);
 		sequencer.setLoopCount(Sequencer.LOOP_CONTINUOUSLY);
@@ -38,8 +36,8 @@ class SoundService {
 	}
 
 	private void addTick(int tick) throws InvalidMidiDataException {
-		addEvent(ShortMessage.NOTE_ON, 35, tick);
-		addEvent(ShortMessage.NOTE_OFF, 35, tick + 1);
+		addEvent(ShortMessage.NOTE_ON, 35, tick + 1);
+		addEvent(ShortMessage.NOTE_OFF, 0, tick + 2);
 	}
 
 	private void addEvent(int type, int num, int tick) throws InvalidMidiDataException {

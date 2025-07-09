@@ -1,3 +1,5 @@
+import java.util.List;
+
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.MidiSystem;
@@ -17,14 +19,22 @@ class SoundService {
 	}
 
 	void play(Beat beat) throws Exception {
-		for (Integer tick : beat.ticks()) {
-			addTick(tick);
+		List<Tick> ticks = beat.ticks();
+		for (int i = 0; i < ticks.size(); i++) {
+			Tick tick = ticks.get(i);
+			if (tick == null) continue;
+			addEvent(ShortMessage.NOTE_ON, tick, i + 1);
+			addEvent(ShortMessage.NOTE_OFF, tick, i + 2);
 		}
+		addEvent(ShortMessage.PROGRAM_CHANGE, null, ticks.size());
 
 		sequencer.setSequence(sequence);
 		sequencer.setLoopCount(Sequencer.LOOP_CONTINUOUSLY);
 		sequencer.open();
 		sequencer.setTempoInBPM(94.0f);
+	}
+
+	void start() {
 		sequencer.start();
 	}
 
@@ -35,14 +45,17 @@ class SoundService {
 		}
 	}
 
-	private void addTick(int tick) throws InvalidMidiDataException {
-		addEvent(ShortMessage.NOTE_ON, 35, tick + 1);
-		addEvent(ShortMessage.NOTE_OFF, 0, tick + 2);
+	private void addEvent(int type, Tick tick, int tickVal) throws InvalidMidiDataException {
+		ShortMessage message = new ShortMessage();
+		message.setMessage(type, 9, tick != null ? tick.instrument().value : 0, tick != null ? tick.velocity() : 0);
+		track.add(new MidiEvent(message, tickVal));
 	}
 
-	private void addEvent(int type, int num, int tick) throws InvalidMidiDataException {
-		ShortMessage message = new ShortMessage();
-		message.setMessage(type, 9, num, 100);
-		track.add(new MidiEvent(message, tick));
+	public boolean isRunning() {
+		return sequencer.isRunning();
+	}
+
+	public long getTickPosition() {
+		return sequencer.getTickPosition();
 	}
 }

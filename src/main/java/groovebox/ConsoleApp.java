@@ -1,8 +1,10 @@
+package groovebox;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-public class App {
+public class ConsoleApp {
 	public static void main(String[] args) throws Exception {
 		SoundService soundService = new SoundService();
 		QuarterNote note1 = new QuarterNote(new Tick(Instrument.ACOUSTIC_BASS_DRUM, 120),

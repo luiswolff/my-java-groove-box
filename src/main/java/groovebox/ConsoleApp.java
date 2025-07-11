@@ -4,6 +4,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
+import groovebox.model.Beat;
+import groovebox.model.FourBarPhrase;
+import groovebox.model.Instrument;
+import groovebox.model.QuarterNote;
+import groovebox.model.Tick;
+import groovebox.services.SoundService;
+
 public class ConsoleApp {
 	public static void main(String[] args) throws Exception {
 		SoundService soundService = new SoundService();

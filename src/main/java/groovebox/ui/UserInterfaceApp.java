@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 public class UserInterfaceApp extends Application {
 	@Override
 	public void start(Stage primaryStage)  throws Exception {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("groove-box-view.fxml"));
 		Scene scene = new Scene(fxmlLoader.load(), 400, 200);
 		primaryStage.setTitle("Groove");
 		primaryStage.setScene(scene);

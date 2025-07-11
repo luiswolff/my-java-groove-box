@@ -1,4 +1,4 @@
-package groovebox;
+package groovebox.services;
 
 import java.util.List;
 
@@ -10,17 +10,20 @@ import javax.sound.midi.Sequencer;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Track;
 
-class SoundService {
+import groovebox.model.Beat;
+import groovebox.model.Tick;
+
+public class SoundService {
 	final Sequencer sequencer;
 	final Sequence sequence;
 	final Track track;
-	SoundService() throws Exception {
+	public SoundService() throws Exception {
 		sequencer = MidiSystem.getSequencer();
 		sequence = new Sequence(Sequence.PPQ, 4);
 		track = sequence.createTrack();
 	}
 
-	void play(Beat beat) throws Exception {
+	public void play(Beat beat) throws Exception {
 		List<Tick> ticks = beat.ticks();
 		for (int i = 0; i < ticks.size(); i++) {
 			Tick tick = ticks.get(i);
@@ -32,15 +35,15 @@ class SoundService {
 
 		sequencer.setSequence(sequence);
 		sequencer.setLoopCount(Sequencer.LOOP_CONTINUOUSLY);
-		sequencer.open();
-		sequencer.setTempoInBPM(94.0f);
 	}
 
-	void start() {
+	public void start() throws Exception {
+		sequencer.open();
+		sequencer.setTempoInBPM(94.0f);
 		sequencer.start();
 	}
 
-	void stop() {
+	public void stop() {
 		if (sequencer.isOpen()) {
 			sequencer.stop();
 			sequencer.close();

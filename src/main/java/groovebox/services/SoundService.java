@@ -13,14 +13,17 @@ import javax.sound.midi.Track;
 import groovebox.model.Beat;
 import groovebox.model.Tick;
 
-public class SoundService {
+public class SoundService implements AutoCloseable {
 	final Sequencer sequencer;
 	final Sequence sequence;
 	final Track track;
+	private final float bpm = 94.0f;
+
 	public SoundService() throws Exception {
 		sequencer = MidiSystem.getSequencer();
 		sequence = new Sequence(Sequence.PPQ, 4);
 		track = sequence.createTrack();
+		sequencer.open();
 	}
 
 	public void play(Beat beat) throws Exception {
@@ -35,18 +38,21 @@ public class SoundService {
 
 		sequencer.setSequence(sequence);
 		sequencer.setLoopCount(Sequencer.LOOP_CONTINUOUSLY);
+		sequencer.setTempoInBPM(bpm);
 	}
 
-	public void start() throws Exception {
-		sequencer.open();
-		sequencer.setTempoInBPM(94.0f);
-		sequencer.start();
+	public void start() {
+		if (!isRunning()) {
+			sequencer.start();
+			sequencer.setTempoInBPM(bpm);
+			System.out.println(sequencer.getTempoInBPM());
+		}
 	}
 
 	public void stop() {
-		if (sequencer.isOpen()) {
+		if (isRunning()) {
 			sequencer.stop();
-			sequencer.close();
+			sequencer.setTickPosition(0);
 		}
 	}
 
@@ -62,5 +68,12 @@ public class SoundService {
 
 	public long getTickPosition() {
 		return sequencer.getTickPosition();
+	}
+
+	@Override
+	public void close() {
+		if (sequencer.isOpen()) {
+			sequencer.close();
+		}
 	}
 }

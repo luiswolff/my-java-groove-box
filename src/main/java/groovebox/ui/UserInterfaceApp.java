@@ -10,6 +10,8 @@ public class UserInterfaceApp extends Application {
 	public void start(Stage primaryStage)  throws Exception {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("groove-box-view.fxml"));
 		Scene scene = new Scene(fxmlLoader.load(), 400, 200);
+		GrooveBoxController controller = fxmlLoader.getController();
+		primaryStage.setOnCloseRequest(event -> controller.close());
 		primaryStage.setTitle("Groove");
 		primaryStage.setScene(scene);
 		primaryStage.show();

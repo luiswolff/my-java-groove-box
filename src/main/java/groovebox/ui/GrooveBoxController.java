@@ -45,12 +45,12 @@ public class GrooveBoxController {
 			soundService.stop();
 			welcomeText.setText("Music stoped");
 		} else {
-			try {
-				soundService.start();
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			}
+			soundService.start();
 			welcomeText.setText("Music started");
 		}
+	}
+
+	public void close() {
+		soundService.close();
 	}
 }

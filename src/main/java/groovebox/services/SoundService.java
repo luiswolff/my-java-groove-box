@@ -14,19 +14,20 @@ import groovebox.model.Beat;
 import groovebox.model.Tick;
 
 public class SoundService implements AutoCloseable {
-	final Sequencer sequencer;
-	final Sequence sequence;
-	final Track track;
+	private final Sequencer sequencer;
+	private final Sequence sequence;
+	private Track track;
 	private final float bpm = 94.0f;
 
 	public SoundService() throws Exception {
 		sequencer = MidiSystem.getSequencer();
 		sequence = new Sequence(Sequence.PPQ, 4);
-		track = sequence.createTrack();
 		sequencer.open();
 	}
 
 	public void play(Beat beat) throws Exception {
+		sequence.deleteTrack(track);
+		track = sequence.createTrack();
 		List<Tick> ticks = beat.ticks();
 		for (int i = 0; i < ticks.size(); i++) {
 			Tick tick = ticks.get(i);

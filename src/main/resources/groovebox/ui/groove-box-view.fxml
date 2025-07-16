@@ -1,16 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="groovebox.ui.GrooveBoxController">
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groovebox.ui.GrooveBoxController">
 	<padding>
 		<Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
 	</padding>
 
 	<Label fx:id="welcomeText"/>
-	<Button text="Start/Stop" onAction="#onHelloButtonClick"/>
+	<Button onAction="#onHelloButtonClick" text="Start/Stop"/>
+	<GridPane>
+		<columnConstraints>
+			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="175.0" prefWidth="175.0"/>
+			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0"/>
+			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0"/>
+			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0"/>
+			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0"/>
+			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0"/>
+			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0"/>
+			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0"/>
+			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0"/>
+			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0"/>
+			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0"/>
+			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0"/>
+			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0"/>
+			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0"/>
+			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0"/>
+			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0"/>
+			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0"/>
+		</columnConstraints>
+		<rowConstraints>
+			<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+			<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+		</rowConstraints>
+		<children>
+			<Label text="ACOUSTIC_BASS_DRUM"/>
+			<Label text="ELECTRIC_SNARE" GridPane.rowIndex="1"/>
+			<Region style="-fx-background-color: blue" GridPane.columnIndex="1"/>
+			<Region style="-fx-background-color: blue" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="1"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="2"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="3"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="4"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="4" GridPane.rowIndex="1"/>
+			<Region style="-fx-background-color: blue" GridPane.columnIndex="5"/>
+			<Region style="-fx-background-color: blue" GridPane.columnIndex="5" GridPane.rowIndex="1"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="5"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="5" GridPane.rowIndex="1"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="6"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="6" GridPane.rowIndex="1"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="7"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="7" GridPane.rowIndex="1"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="8"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="8" GridPane.rowIndex="1"/>
+			<Region style="-fx-background-color: blue" GridPane.columnIndex="9"/>
+			<Region style="-fx-background-color: blue" GridPane.columnIndex="9" GridPane.rowIndex="1"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="9"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="9" GridPane.rowIndex="1"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="10"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="10" GridPane.rowIndex="1"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="11"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="11" GridPane.rowIndex="1"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="12"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="12" GridPane.rowIndex="1"/>
+			<Region style="-fx-background-color: blue" GridPane.columnIndex="13"/>
+			<Region style="-fx-background-color: blue" GridPane.columnIndex="13" GridPane.rowIndex="1"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="13"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="13" GridPane.rowIndex="1"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="14"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="14" GridPane.rowIndex="1"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="15"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="15" GridPane.rowIndex="1"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="16"/>
+			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="16" GridPane.rowIndex="1"/>
+		</children>
+	</GridPane>
 </VBox>

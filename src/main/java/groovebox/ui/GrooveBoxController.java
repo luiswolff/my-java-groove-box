@@ -29,12 +29,8 @@ public class GrooveBoxController {
 	)));
 
 	public GrooveBoxController() {
-		try {
-			soundService = new SoundService();
-			soundService.defineTrack(beat.createTrackDate());
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		soundService = new SoundService();
+		soundService.defineTrack(beat.createTrackDate());
 	}
 
 	@FXML
@@ -58,11 +54,7 @@ public class GrooveBoxController {
 		Tick tick = createTick(node.isSelected(), row);
 		setTick(col, quarterNote, tick);
 
-		try {
-			soundService.defineTrack(beat.createTrackDate());
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		soundService.defineTrack(beat.createTrackDate());
 	}
 
 	private QuarterNote getQuarterNote(int col) {

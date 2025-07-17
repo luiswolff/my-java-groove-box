@@ -3,6 +3,7 @@ package groovebox.services;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
 import javax.sound.midi.ShortMessage;
@@ -10,11 +11,15 @@ import javax.sound.midi.Track;
 
 public class SoundService implements AutoCloseable {
 	private final Sequencer sequencer;
-	private float bpm = 94.0f;
+	private float bpm;
 
-	public SoundService() throws Exception {
-		sequencer = MidiSystem.getSequencer();
-		sequencer.open();
+	public SoundService() {
+		try {
+			sequencer = MidiSystem.getSequencer();
+			sequencer.open();
+		} catch (MidiUnavailableException e) {
+			throw new IllegalStateException("could not initialize Sequencer", e);
+		}
 	}
 
 	public void defineTrack(TrackData trackData) {

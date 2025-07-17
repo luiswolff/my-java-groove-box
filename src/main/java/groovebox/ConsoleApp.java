@@ -12,7 +12,7 @@ import groovebox.model.Tick;
 import groovebox.services.SoundService;
 
 public class ConsoleApp {
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
 		//noinspection resource
 		SoundService soundService = new SoundService();
 		QuarterNote note1 = new QuarterNote(new Tick(Instrument.ACOUSTIC_BASS_DRUM, 120),

@@ -31,7 +31,7 @@ public class GrooveBoxController {
 	public GrooveBoxController() {
 		try {
 			soundService = new SoundService();
-			soundService.play(beat);
+			soundService.defineTrack(beat.createTrackDate());
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -59,7 +59,7 @@ public class GrooveBoxController {
 		setTick(col, quarterNote, tick);
 
 		try {
-			soundService.play(beat);
+			soundService.defineTrack(beat.createTrackDate());
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

@@ -1,7 +1,5 @@
 package groovebox.services;
 
-import java.util.List;
-
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.MidiSystem;
@@ -10,43 +8,72 @@ import javax.sound.midi.Sequencer;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Track;
 
-import groovebox.model.Beat;
-import groovebox.model.Tick;
-
 public class SoundService implements AutoCloseable {
 	private final Sequencer sequencer;
-	private final Sequence sequence;
-	private Track track;
-	private final float bpm = 94.0f;
+	private float bpm = 94.0f;
 
 	public SoundService() throws Exception {
 		sequencer = MidiSystem.getSequencer();
-		sequence = new Sequence(Sequence.PPQ, 4);
 		sequencer.open();
 	}
 
-	public void play(Beat beat) throws Exception {
-		sequence.deleteTrack(track);
-		track = sequence.createTrack();
-		List<Tick> ticks = beat.ticks();
-		for (int i = 0; i < ticks.size(); i++) {
-			Tick tick = ticks.get(i);
-			if (tick == null) continue;
-			addEvent(ShortMessage.NOTE_ON, tick, i + 1);
-			addEvent(ShortMessage.NOTE_OFF, tick, i + 2);
+	public void defineTrack(TrackData trackData) {
+		try {
+			Sequence sequence = createSequence(trackData);
+			applyTrackData(new TrackBuilder(sequence), trackData.noteDataTable());
+			applySequence(sequence, trackData);
+		} catch (InvalidMidiDataException e) {
+			throw new IllegalStateException("could not create Track", e);
 		}
-		addEvent(ShortMessage.PROGRAM_CHANGE, null, ticks.size());
+	}
 
+	private Sequence createSequence(TrackData trackData) throws InvalidMidiDataException {
+		return new Sequence(Sequence.PPQ, trackData.resolution());
+	}
+
+	private void applyTrackData(TrackBuilder trackBuilder, NoteDataBytes[][] noteDataBytesTable) throws InvalidMidiDataException {
+		for (int i = 0; i < noteDataBytesTable.length; i++) {
+			for (NoteDataBytes noteDataBytes : noteDataBytesTable[i]) {
+				trackBuilder.addNote(noteDataBytes, i);
+			}
+		}
+		trackBuilder.finish(noteDataBytesTable.length);
+	}
+
+	private static class TrackBuilder {
+		private final Track track;
+		private TrackBuilder(Sequence sequence) {
+			this.track = sequence.createTrack();
+		}
+
+		private void addNote(NoteDataBytes noteDataBytes, int notePosition) throws InvalidMidiDataException {
+			int noteStart = notePosition + 1;
+			int noteStop = notePosition + 2;
+			addEvent(ShortMessage.NOTE_ON, noteDataBytes, noteStart);
+			addEvent(ShortMessage.NOTE_OFF, noteDataBytes, noteStop);
+		}
+
+		private void finish(int trackLength) throws InvalidMidiDataException {
+			addEvent(ShortMessage.PROGRAM_CHANGE, NoteDataBytes.empty(), trackLength);
+		}
+
+		private void addEvent(int type, NoteDataBytes noteDataBytes, int tickVal) throws InvalidMidiDataException {
+			ShortMessage message = new ShortMessage();
+			message.setMessage(type, 9, noteDataBytes.firstDataByte(), noteDataBytes.secondDataByte());
+			track.add(new MidiEvent(message, tickVal));
+		}
+	}
+
+	private void applySequence(Sequence sequence, TrackData trackData) throws InvalidMidiDataException {
 		sequencer.setSequence(sequence);
-		sequencer.setLoopCount(Sequencer.LOOP_CONTINUOUSLY);
-		sequencer.setTempoInBPM(bpm);
+		sequencer.setLoopCount(trackData.loopCount());
+		sequencer.setTempoInBPM(bpm = trackData.tempoInBPM());
 	}
 
 	public void start() {
 		if (!isRunning()) {
 			sequencer.start();
 			sequencer.setTempoInBPM(bpm);
-			System.out.println(sequencer.getTempoInBPM());
 		}
 	}
 
@@ -55,12 +82,6 @@ public class SoundService implements AutoCloseable {
 			sequencer.stop();
 			sequencer.setTickPosition(0);
 		}
-	}
-
-	private void addEvent(int type, Tick tick, int tickVal) throws InvalidMidiDataException {
-		ShortMessage message = new ShortMessage();
-		message.setMessage(type, 9, tick != null ? tick.instrument().value : 0, tick != null ? tick.velocity() : 0);
-		track.add(new MidiEvent(message, tickVal));
 	}
 
 	public boolean isRunning() {

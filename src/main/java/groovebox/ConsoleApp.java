@@ -13,6 +13,7 @@ import groovebox.services.SoundService;
 
 public class ConsoleApp {
 	public static void main(String[] args) throws Exception {
+		//noinspection resource
 		SoundService soundService = new SoundService();
 		QuarterNote note1 = new QuarterNote(new Tick(Instrument.ACOUSTIC_BASS_DRUM, 120),
 				null,
@@ -22,12 +23,12 @@ public class ConsoleApp {
 				null,
 				new Tick(Instrument.ELECTRIC_SNARE, 100),
 				null);
-		soundService.play(new Beat(List.of(new FourBarPhrase(
+		soundService.defineTrack(new Beat(List.of(new FourBarPhrase(
 				note1,
 				note2,
 				note1,
 				note2
-		))));
+		))).createTrackDate());
 
 		System.out.println("Press any key to start");
 		new Scanner(System.in).nextLine();
@@ -44,6 +45,6 @@ public class ConsoleApp {
 			}
 		}
 
-		Runtime.getRuntime().addShutdownHook(new Thread(soundService::stop));
+		Runtime.getRuntime().addShutdownHook(new Thread(soundService::close));
 	}
 }

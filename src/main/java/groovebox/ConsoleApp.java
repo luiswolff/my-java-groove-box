@@ -1,34 +1,26 @@
 package groovebox;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Scanner;
 
 import groovebox.model.Beat;
-import groovebox.model.FourBarPhrase;
 import groovebox.model.Instrument;
-import groovebox.model.QuarterNote;
-import groovebox.model.Tick;
 import groovebox.services.SoundService;
 
 public class ConsoleApp {
 	public static void main(String[] args) {
 		//noinspection resource
 		SoundService soundService = new SoundService();
-		QuarterNote note1 = new QuarterNote(new Tick(Instrument.ACOUSTIC_BASS_DRUM, 120),
-				null,
-				null,
-				new Tick(Instrument.ELECTRIC_SNARE, 100));
-		QuarterNote note2 = new QuarterNote(new Tick(Instrument.ACOUSTIC_BASS_DRUM, 120),
-				null,
-				new Tick(Instrument.ELECTRIC_SNARE, 100),
-				null);
-		soundService.defineTrack(new Beat(List.of(new FourBarPhrase(
-				note1,
-				note2,
-				note1,
-				note2
-		))).createTrackDate());
+		Beat beat = new Beat();
+		beat.defineTick(Instrument.ACOUSTIC_BASS_DRUM, true, 0, 0);
+		beat.defineTick(Instrument.ELECTRIC_SNARE, true, 0, 3);
+		beat.defineTick(Instrument.ACOUSTIC_BASS_DRUM, true, 1, 0);
+		beat.defineTick(Instrument.ELECTRIC_SNARE, true, 1, 2);
+		beat.defineTick(Instrument.ACOUSTIC_BASS_DRUM, true, 2, 0);
+		beat.defineTick(Instrument.ELECTRIC_SNARE, true, 2, 3);
+		beat.defineTick(Instrument.ACOUSTIC_BASS_DRUM, true, 3, 0);
+		beat.defineTick(Instrument.ELECTRIC_SNARE, true, 3, 2);
+		soundService.defineTrack(beat.createTrackData());
 
 		System.out.println("Press any key to start");
 		new Scanner(System.in).nextLine();

@@ -3,6 +3,7 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import groovebox.ui.InstrumentTickCheckBox?>
 
 <VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groovebox.ui.GrooveBoxController">
 	<padding>
@@ -13,7 +14,7 @@
 	<Button onAction="#onHelloButtonClick" text="Start/Stop"/>
 	<GridPane>
 		<columnConstraints>
-			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="175.0" prefWidth="175.0"/>
+			<ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="175.0" prefWidth="175.0"/>
 			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0"/>
 			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0"/>
 			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0"/>
@@ -40,44 +41,44 @@
 			<Label text="ELECTRIC_SNARE" GridPane.rowIndex="1"/>
 			<Region style="-fx-background-color: blue" GridPane.columnIndex="1"/>
 			<Region style="-fx-background-color: blue" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="1"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="2"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="3"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="4"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="4" GridPane.rowIndex="1"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="1"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="2"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="3"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="4"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="4" GridPane.rowIndex="1"/>
 			<Region style="-fx-background-color: blue" GridPane.columnIndex="5"/>
 			<Region style="-fx-background-color: blue" GridPane.columnIndex="5" GridPane.rowIndex="1"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="5"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="5" GridPane.rowIndex="1"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="6"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="6" GridPane.rowIndex="1"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="7"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="7" GridPane.rowIndex="1"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="8"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="8" GridPane.rowIndex="1"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="5"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="5" GridPane.rowIndex="1"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="6"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="6" GridPane.rowIndex="1"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="7"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="7" GridPane.rowIndex="1"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="8"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="8" GridPane.rowIndex="1"/>
 			<Region style="-fx-background-color: blue" GridPane.columnIndex="9"/>
 			<Region style="-fx-background-color: blue" GridPane.columnIndex="9" GridPane.rowIndex="1"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="9"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="9" GridPane.rowIndex="1"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="10"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="10" GridPane.rowIndex="1"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="11"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="11" GridPane.rowIndex="1"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="12"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="12" GridPane.rowIndex="1"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="9"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="9" GridPane.rowIndex="1"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="10"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="10" GridPane.rowIndex="1"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="11"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="11" GridPane.rowIndex="1"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="12"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="12" GridPane.rowIndex="1"/>
 			<Region style="-fx-background-color: blue" GridPane.columnIndex="13"/>
 			<Region style="-fx-background-color: blue" GridPane.columnIndex="13" GridPane.rowIndex="1"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="13"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="13" GridPane.rowIndex="1"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="14"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="14" GridPane.rowIndex="1"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="15"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="15" GridPane.rowIndex="1"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="16"/>
-			<CheckBox mnemonicParsing="false" onAction="#onInstrumentChanged" GridPane.columnIndex="16" GridPane.rowIndex="1"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="13"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="13" GridPane.rowIndex="1"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="14"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="14" GridPane.rowIndex="1"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="15"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="15" GridPane.rowIndex="1"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="16"/>
+			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="16" GridPane.rowIndex="1"/>
 		</children>
 	</GridPane>
 </VBox>

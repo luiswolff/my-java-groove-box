@@ -3,10 +3,10 @@ package groovebox.model;
 import java.util.stream.Stream;
 
 public class FourBarPhrase {
-	private final QuarterNote note1 = new QuarterNote(null, null, null, null);
-	private final QuarterNote note2 = new QuarterNote(null, null, null, null);
-	private final QuarterNote note3 = new QuarterNote(null, null, null, null);
-	private final QuarterNote note4 = new QuarterNote(null, null, null, null);
+	private final QuarterNote note1 = new QuarterNote();
+	private final QuarterNote note2 = new QuarterNote();
+	private final QuarterNote note3 = new QuarterNote();
+	private final QuarterNote note4 = new QuarterNote();
 	Stream<QuarterNote> getQuarterNoteStream() {
 		return Stream.of(note1, note2, note3, note4);
 	}

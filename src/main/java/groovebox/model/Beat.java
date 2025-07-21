@@ -1,7 +1,6 @@
 package groovebox.model;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 import groovebox.services.NoteDataBytes;
 import groovebox.services.TrackData;
@@ -33,8 +32,7 @@ public class Beat {
 	public NoteDataBytes[][] noteDataTable() {
 		return phrases.stream()
 				.flatMap(FourBarPhrase::getQuarterNoteStream)
-				.flatMap(note -> note != null ? note.getTickStream() : Stream.empty())
-				.map(tick -> tick != null ? new NoteDataBytes[] {new NoteDataBytes(tick.instrument().value, tick.velocity())} : new NoteDataBytes[0])
+				.flatMap(QuarterNote::getNoteDataBytesStream)
 				.toArray(NoteDataBytes[][]::new);
 	}
 
@@ -45,7 +43,7 @@ public class Beat {
 
 	public void removeTick(Instrument instrument, int noteIndex, int tickIndex) {
 		QuarterNote quarterNote = phrases.get(0).getQuarterNote(noteIndex);
-		quarterNote.setTick(null, tickIndex);
+		quarterNote.removeTick(new Tick(instrument, 0), tickIndex);
 	}
 
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import groovebox.ui.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import groovebox.ui.InstrumentTickCheckBox?>
 
 <VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groovebox.ui.GrooveBoxController">
 	<padding>
@@ -11,7 +11,11 @@
 	</padding>
 
 	<Label fx:id="welcomeText"/>
-	<Button onAction="#onHelloButtonClick" text="Start/Stop"/>
+	<HBox>
+		<Button onAction="#onHelloButtonClick" text="Start/Stop"/>
+		<Label text="BPM: "/>
+		<TempoSpinner onAction="#onTempoChanged"/>
+	</HBox>
 	<GridPane>
 		<columnConstraints>
 			<ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="175.0" prefWidth="175.0"/>

@@ -37,6 +37,13 @@ public class GrooveBoxController {
 		soundService.defineTrack(beat.createTrackData());
 	}
 
+	@FXML
+	protected void onTempoChanged(ActionEvent actionEvent) {
+		TempoSpinner spinner = (TempoSpinner) actionEvent.getSource();
+		spinner.applyChange(beat);
+		soundService.defineTrack(beat.createTrackData());
+	}
+
 	public void close() {
 		soundService.close();
 	}

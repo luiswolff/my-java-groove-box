@@ -12,6 +12,10 @@ public class InstrumentTickCheckBox extends CheckBox {
 		int row = Optional.ofNullable(GridPane.getRowIndex(this)).orElse(0);
 		int col = Optional.ofNullable(GridPane.getColumnIndex(this)).orElse(0) - 1;
 
-		beat.defineTick(Instrument.values()[row], isSelected(), col / 4, col % 4);
+		if (isSelected()) {
+			beat.defineTick(Instrument.values()[row], col / 4, col % 4);
+		} else {
+			beat.removeTick(Instrument.values()[row], col / 4, col % 4);
+		}
 	}
 }

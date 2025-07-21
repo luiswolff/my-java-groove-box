@@ -12,14 +12,15 @@ public class ConsoleApp {
 		//noinspection resource
 		SoundService soundService = new SoundService();
 		Beat beat = new Beat();
-		beat.defineTick(Instrument.ACOUSTIC_BASS_DRUM, true, 0, 0);
-		beat.defineTick(Instrument.ELECTRIC_SNARE, true, 0, 3);
-		beat.defineTick(Instrument.ACOUSTIC_BASS_DRUM, true, 1, 0);
-		beat.defineTick(Instrument.ELECTRIC_SNARE, true, 1, 2);
-		beat.defineTick(Instrument.ACOUSTIC_BASS_DRUM, true, 2, 0);
-		beat.defineTick(Instrument.ELECTRIC_SNARE, true, 2, 3);
-		beat.defineTick(Instrument.ACOUSTIC_BASS_DRUM, true, 3, 0);
-		beat.defineTick(Instrument.ELECTRIC_SNARE, true, 3, 2);
+		beat.defineTick(Instrument.ACOUSTIC_BASS_DRUM, 0, 0);
+		beat.defineTick(Instrument.ELECTRIC_SNARE, 0, 3);
+		beat.defineTick(Instrument.ACOUSTIC_BASS_DRUM, 1, 0);
+		beat.defineTick(Instrument.ELECTRIC_SNARE, 1, 2);
+		beat.defineTick(Instrument.ACOUSTIC_BASS_DRUM, 2, 0);
+		beat.defineTick(Instrument.ELECTRIC_SNARE, 2, 3);
+		beat.defineTick(Instrument.ACOUSTIC_BASS_DRUM, 3, 0);
+		beat.defineTick(Instrument.ELECTRIC_SNARE, 3, 2);
+		beat.setTempoInBPM(94.0f);
 		soundService.defineTrack(beat.createTrackData());
 
 		System.out.println("Press any key to start");

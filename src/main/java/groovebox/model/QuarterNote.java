@@ -1,5 +1,7 @@
 package groovebox.model;
 
+import java.util.stream.Stream;
+
 public class QuarterNote {
 	private Tick tick1;
 	private Tick tick2;
@@ -43,5 +45,26 @@ public class QuarterNote {
 
 	public void setTick4(Tick tick4) {
 		this.tick4 = tick4;
+	}
+
+	Stream<Tick> getTickStream() {
+		return Stream.of(getTick1(), getTick2(), getTick3(), getTick4());
+	}
+
+	void setTick(Tick tick, int tickIndex) {
+		switch (tickIndex) {
+			case 0:
+				setTick1(tick);
+				break;
+			case 1:
+				setTick2(tick);
+				break;
+			case 2:
+				setTick3(tick);
+				break;
+			case 3:
+				setTick4(tick);
+				break;
+		}
 	}
 }

@@ -22,5 +22,7 @@
 			<LoopCountSpinner fx:id="loopCountSpinner" editable="true" prefWidth="64.0" />
 		</HBox>
 	</HBox>
-	<InstrumentGridPane fx:id="instrumentGridPane" />
+	<ScrollPane prefWidth="600" prefViewportHeight="300">
+		<InstrumentGridPane fx:id="instrumentGridPane"  />
+	</ScrollPane>
 </VBox>

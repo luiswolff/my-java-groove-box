@@ -39,7 +39,6 @@ public class GrooveBoxController {
 	}
 
 	void handleModelChanged() {
-		System.out.println("model changed");
 		soundService.defineTrack(beat.createTrackData());
 	}
 

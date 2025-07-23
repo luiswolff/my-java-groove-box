@@ -9,7 +9,7 @@ public class Beat {
 
 	private final List<FourBarPhrase> phrases;
 	private final int resolution = 4; // four tick positions per note
-	private final int loopCount = -1; // Sequencer.LOOP_CONTINUOUSLY
+	private int loopCount = -1; // Sequencer.LOOP_CONTINUOUSLY
 	private float tempoInBPM = 94.0f;
 
 	public Beat() {
@@ -29,6 +29,10 @@ public class Beat {
 		this.tempoInBPM = tempoInBPM;
 	}
 
+	public void setLoopCount(Integer loopCount) {
+		this.loopCount = loopCount;
+	}
+
 	public NoteDataBytes[][] noteDataTable() {
 		return phrases.stream()
 				.flatMap(FourBarPhrase::getQuarterNoteStream)
@@ -45,5 +49,4 @@ public class Beat {
 		QuarterNote quarterNote = phrases.get(0).getQuarterNote(noteIndex);
 		quarterNote.removeTick(new Tick(instrument, 0), tickIndex);
 	}
-
 }

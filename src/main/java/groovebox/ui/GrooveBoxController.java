@@ -44,6 +44,13 @@ public class GrooveBoxController {
 		soundService.defineTrack(beat.createTrackData());
 	}
 
+	@FXML
+	public void onLoopCountChanged(ActionEvent actionEvent) {
+		LoopCountSpinner spinner = (LoopCountSpinner) actionEvent.getSource();
+		spinner.applyChange(beat);
+		soundService.defineTrack(beat.createTrackData());
+	}
+
 	public void close() {
 		soundService.close();
 	}

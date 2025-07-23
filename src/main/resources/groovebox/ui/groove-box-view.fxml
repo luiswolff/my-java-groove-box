@@ -11,10 +11,16 @@
 	</padding>
 
 	<Label fx:id="welcomeText" />
-	<HBox>
+	<HBox spacing="20.0">
 		<Button onAction="#onHelloButtonClick" text="Start/Stop" />
-		<Label text="BPM: " />
-		<TempoSpinner editable="true" onAction="#onTempoChanged" prefHeight="25.0" prefWidth="64.0" />
+		<HBox>
+			<Label text="BPM: " />
+			<TempoSpinner editable="true" onAction="#onTempoChanged" prefWidth="64.0" />
+		</HBox>
+		<HBox>
+			<Label text="Loop Count: " />
+			<LoopCountSpinner editable="true" onAction="#onLoopCountChanged" prefWidth="64.0" />
+		</HBox>
 	</HBox>
 	<GridPane>
 		<columnConstraints>

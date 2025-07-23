@@ -77,6 +77,9 @@ public class SoundService implements AutoCloseable {
 
 	public void start() {
 		if (!isRunning()) {
+			if (sequencer.getTickLength() == sequencer.getTickPosition()) {
+				sequencer.setTickPosition(0);
+			}
 			sequencer.start();
 			sequencer.setTempoInBPM(bpm);
 		}

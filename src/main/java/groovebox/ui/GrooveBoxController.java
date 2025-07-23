@@ -2,7 +2,6 @@ package groovebox.ui;
 
 import groovebox.model.Beat;
 import groovebox.services.SoundService;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -10,12 +9,37 @@ public class GrooveBoxController {
 	@FXML
 	private Label welcomeText;
 
+	@FXML
+	private InstrumentGridPane instrumentGridPane;
+
+	@FXML
+	private TempoSpinner tempoSpinner;
+
+	@FXML
+	private LoopCountSpinner loopCountSpinner;
+
 	private final SoundService soundService;
 
 	private final Beat beat = new Beat();
 
 	public GrooveBoxController() {
 		soundService = new SoundService();
+		soundService.defineTrack(beat.createTrackData());
+	}
+
+	@FXML
+	public void initialize() {
+		defineModel();
+	}
+
+	void defineModel() {
+		instrumentGridPane.defineBeat(beat, this);
+		loopCountSpinner.defineBeat(beat, this);
+		tempoSpinner.defineBeat(beat, this);
+	}
+
+	void handleModelChanged() {
+		System.out.println("model changed");
 		soundService.defineTrack(beat.createTrackData());
 	}
 
@@ -28,27 +52,6 @@ public class GrooveBoxController {
 			soundService.start();
 			welcomeText.setText("Music started");
 		}
-	}
-
-	@FXML
-	protected void onInstrumentChanged(ActionEvent actionEvent) {
-		InstrumentTickCheckBox node = (InstrumentTickCheckBox) actionEvent.getSource();
-		node.applyInstrumentChange(beat);
-		soundService.defineTrack(beat.createTrackData());
-	}
-
-	@FXML
-	protected void onTempoChanged(ActionEvent actionEvent) {
-		TempoSpinner spinner = (TempoSpinner) actionEvent.getSource();
-		spinner.applyChange(beat);
-		soundService.defineTrack(beat.createTrackData());
-	}
-
-	@FXML
-	public void onLoopCountChanged(ActionEvent actionEvent) {
-		LoopCountSpinner spinner = (LoopCountSpinner) actionEvent.getSource();
-		spinner.applyChange(beat);
-		soundService.defineTrack(beat.createTrackData());
 	}
 
 	public void close() {

@@ -15,80 +15,12 @@
 		<Button onAction="#onHelloButtonClick" text="Start/Stop" />
 		<HBox>
 			<Label text="BPM: " />
-			<TempoSpinner editable="true" onAction="#onTempoChanged" prefWidth="64.0" />
+			<TempoSpinner fx:id="tempoSpinner" editable="true" prefWidth="64.0" />
 		</HBox>
 		<HBox>
 			<Label text="Loop Count: " />
-			<LoopCountSpinner editable="true" onAction="#onLoopCountChanged" prefWidth="64.0" />
+			<LoopCountSpinner fx:id="loopCountSpinner" editable="true" prefWidth="64.0" />
 		</HBox>
 	</HBox>
-	<GridPane>
-		<columnConstraints>
-			<ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="175.0" prefWidth="175.0" />
-			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0" />
-			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0" />
-			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0" />
-			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0" />
-			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0" />
-			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0" />
-			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0" />
-			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0" />
-			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0" />
-			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0" />
-			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0" />
-			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0" />
-			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0" />
-			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0" />
-			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0" />
-			<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0" />
-		</columnConstraints>
-		<rowConstraints>
-			<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-			<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-		</rowConstraints>
-		<children>
-			<Label text="ACOUSTIC_BASS_DRUM" />
-			<Label text="ELECTRIC_SNARE" GridPane.rowIndex="1" />
-			<Region style="-fx-background-color: blue" GridPane.columnIndex="1" />
-			<Region style="-fx-background-color: blue" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="1" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="2" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="3" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="4" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-			<Region style="-fx-background-color: blue" GridPane.columnIndex="5" />
-			<Region style="-fx-background-color: blue" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="5" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="6" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="6" GridPane.rowIndex="1" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="7" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="7" GridPane.rowIndex="1" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="8" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="8" GridPane.rowIndex="1" />
-			<Region style="-fx-background-color: blue" GridPane.columnIndex="9" />
-			<Region style="-fx-background-color: blue" GridPane.columnIndex="9" GridPane.rowIndex="1" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="9" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="9" GridPane.rowIndex="1" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="10" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="10" GridPane.rowIndex="1" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="11" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="11" GridPane.rowIndex="1" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="12" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="12" GridPane.rowIndex="1" />
-			<Region style="-fx-background-color: blue" GridPane.columnIndex="13" />
-			<Region style="-fx-background-color: blue" GridPane.columnIndex="13" GridPane.rowIndex="1" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="13" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="13" GridPane.rowIndex="1" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="14" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="14" GridPane.rowIndex="1" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="15" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="15" GridPane.rowIndex="1" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="16" />
-			<InstrumentTickCheckBox onAction="#onInstrumentChanged" GridPane.columnIndex="16" GridPane.rowIndex="1" />
-		</children>
-	</GridPane>
+	<InstrumentGridPane fx:id="instrumentGridPane" />
 </VBox>

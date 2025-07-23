@@ -25,8 +25,20 @@ public class Beat {
 		);
 	}
 
+	public int getResolution() {
+		return resolution;
+	}
+
+	public float getTempoInBPM() {
+		return tempoInBPM;
+	}
+
 	public void setTempoInBPM(float tempoInBPM) {
 		this.tempoInBPM = tempoInBPM;
+	}
+
+	public int getLoopCount() {
+		return loopCount;
 	}
 
 	public void setLoopCount(Integer loopCount) {

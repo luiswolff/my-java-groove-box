@@ -10,9 +10,8 @@
 		<Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
 	</padding>
 
-	<Label fx:id="welcomeText" />
 	<HBox spacing="20.0">
-		<Button onAction="#onHelloButtonClick" text="Start/Stop" />
+		<Button fx:id="startStopButton" onAction="#onHelloButtonClick" />
 		<HBox>
 			<Label text="BPM: " />
 			<TempoSpinner fx:id="tempoSpinner" editable="true" prefWidth="64.0" />

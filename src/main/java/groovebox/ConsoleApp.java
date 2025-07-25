@@ -10,7 +10,7 @@ import groovebox.services.SoundService;
 public class ConsoleApp {
 	public static void main(String[] args) {
 		//noinspection resource
-		SoundService soundService = new SoundService();
+		SoundService soundService = new SoundService(null);
 		Beat beat = new Beat();
 		beat.defineTick(Instrument.ACOUSTIC_BASS_DRUM, 0, 0);
 		beat.defineTick(Instrument.ELECTRIC_SNARE, 0, 3);

@@ -13,9 +13,16 @@ public class SoundService implements AutoCloseable {
 	private final Sequencer sequencer;
 	private float bpm;
 
-	public SoundService() {
+	public SoundService(Runnable finishCallback) {
 		try {
 			sequencer = MidiSystem.getSequencer();
+			if (finishCallback != null) {
+				sequencer.addMetaEventListener(meta -> {
+					if (meta.getType() == 47) {
+						finishCallback.run();
+					}
+				});
+			}
 			sequencer.open();
 		} catch (MidiUnavailableException e) {
 			throw new IllegalStateException("could not initialize Sequencer", e);

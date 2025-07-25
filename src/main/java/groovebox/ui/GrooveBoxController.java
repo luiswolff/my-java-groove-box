@@ -3,6 +3,7 @@ package groovebox.ui;
 import groovebox.model.Beat;
 import groovebox.services.SoundService;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 
 public class GrooveBoxController {
@@ -17,6 +18,9 @@ public class GrooveBoxController {
 
 	@FXML
 	private LoopCountSpinner loopCountSpinner;
+
+	@FXML
+	private CheckBox infinityLoopCheckBox;
 
 	private final SoundService soundService;
 
@@ -33,6 +37,8 @@ public class GrooveBoxController {
 	}
 
 	void defineModel() {
+		infinityLoopCheckBox.setSelected(beat.isInfinityLoopCount());
+
 		instrumentGridPane.defineBeat(beat, this);
 		loopCountSpinner.defineBeat(beat, this);
 		tempoSpinner.defineBeat(beat, this);

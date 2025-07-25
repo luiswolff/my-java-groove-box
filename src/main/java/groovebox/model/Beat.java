@@ -45,6 +45,10 @@ public class Beat {
 		this.loopCount = loopCount;
 	}
 
+	public boolean isInfinityLoopCount() {
+		return loopCount < 0;
+	}
+
 	public NoteDataBytes[][] noteDataTable() {
 		return phrases.stream()
 				.flatMap(FourBarPhrase::getQuarterNoteStream)

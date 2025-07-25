@@ -18,8 +18,12 @@
 			<TempoSpinner fx:id="tempoSpinner" editable="true" prefWidth="64.0" />
 		</HBox>
 		<HBox>
+			<Label text="Infinity Loop: " />
+			<CheckBox fx:id="infinityLoopCheckBox"/>
+		</HBox>
+		<HBox>
 			<Label text="Loop Count: " />
-			<LoopCountSpinner fx:id="loopCountSpinner" editable="true" prefWidth="64.0" />
+			<LoopCountSpinner fx:id="loopCountSpinner" editable="true" prefWidth="64.0" disable="${infinityLoopCheckBox.selected}" />
 		</HBox>
 	</HBox>
 	<ScrollPane prefWidth="600" prefViewportHeight="300">

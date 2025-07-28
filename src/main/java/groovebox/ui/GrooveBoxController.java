@@ -7,9 +7,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.SVGPath;
 
 public class GrooveBoxController {
 
@@ -41,10 +38,7 @@ public class GrooveBoxController {
 
 	public GrooveBoxController() {
 		soundService = new SoundService(() -> Platform.runLater(() -> {
-			SVGPath playIcon = new SVGPath();
-			playIcon.setContent("M0,0 L10,5 L0,10 Z"); // Einfaches Dreieck
-			playIcon.setFill(Color.BLACK);
-			startStopButton.setGraphic(playIcon);
+			startStopButton.setGraphic(Icons.play());
 			timer.stop();
 		}));
 		soundService.defineTrack(beat.createTrackData());
@@ -54,10 +48,7 @@ public class GrooveBoxController {
 	public void initialize() {
 		defineModel();
 
-		SVGPath playIcon = new SVGPath();
-		playIcon.setContent("M0,0 L10,5 L0,10 Z"); // Einfaches Dreieck
-		playIcon.setFill(Color.BLACK);
-		startStopButton.setGraphic(playIcon);
+		startStopButton.setGraphic(Icons.play());
 	}
 
 	void defineModel() {
@@ -77,20 +68,11 @@ public class GrooveBoxController {
 		if (soundService.isRunning()) {
 			soundService.stop();
 			timer.stop();
-
-			SVGPath playIcon = new SVGPath();
-			playIcon.setContent("M0,0 L10,5 L0,10 Z"); // Einfaches Dreieck
-			playIcon.setFill(Color.BLACK);
-			startStopButton.setGraphic(playIcon);
+			startStopButton.setGraphic(Icons.play());
 		} else {
 			soundService.start();
 			timer.start();
-
-			Rectangle stopIcon = new Rectangle();
-			stopIcon.setWidth(10);
-			stopIcon.setHeight(10);
-			stopIcon.setFill(Color.RED); // Klassische Stop-Farbe
-			startStopButton.setGraphic(stopIcon);
+			startStopButton.setGraphic(Icons.stop());
 		}
 	}
 

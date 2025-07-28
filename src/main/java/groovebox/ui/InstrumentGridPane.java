@@ -5,6 +5,7 @@ import groovebox.model.Beat;
 import groovebox.model.Instrument;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -30,12 +31,29 @@ public class InstrumentGridPane extends GridPane {
 			Instrument instrument = Instrument.values()[i];
 			add(new Label(instrument.name()), 0, i);
 			for (int j = 1; j <= 4 * beat.getResolution(); j++) {
+				Region region = new Region();
 				if (j % beat.getResolution() == 1) {
-					Region region = new Region();
-					region.setStyle("-fx-background-color: blue;");
-					add(region, j, i);
+					region.setStyle("-fx-background-color: blue");
 				}
+				add(region, j, i);
 				add(new InstrumentTickCheckBox(beat, grooveBoxController), j, i);
+			}
+		}
+	}
+
+	public void highlightColumn(int l) {
+		for (Node node : getChildren()) {
+			if (!(node instanceof InstrumentTickCheckBox) && GridPane.getColumnIndex(node) == l) {
+				String borderStyle = "-fx-border-color: red; " + switch (GridPane.getRowIndex(node)) {
+					case 0 -> "-fx-border-width: 2px 2px 0 2px;";
+					case 46 -> "-fx-border-width: 0 2px 2px 2px;";
+					default -> "-fx-border-width: 0 2px 0 2px;";
+				};
+				String backgroundStyle = l % 4 == 1 ? "-fx-background-color: blue; " : "";
+				node.setStyle(backgroundStyle + borderStyle);
+			} else if (!(node instanceof InstrumentTickCheckBox)) {
+				String backgroundStyle = GridPane.getColumnIndex(node) % 4 == 1 ? "-fx-background-color: blue; " : "";
+				node.setStyle(backgroundStyle);
 			}
 		}
 	}

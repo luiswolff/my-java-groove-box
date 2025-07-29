@@ -59,10 +59,8 @@ public class SoundService implements AutoCloseable {
 		}
 
 		private void addNote(NoteDataBytes noteDataBytes, int notePosition) throws InvalidMidiDataException {
-			int noteStart = notePosition + 1;
-			int noteStop = notePosition + 2;
-			addEvent(ShortMessage.NOTE_ON, noteDataBytes, noteStart);
-			addEvent(ShortMessage.NOTE_OFF, noteDataBytes, noteStop);
+			addEvent(ShortMessage.NOTE_ON, noteDataBytes, notePosition);
+			addEvent(ShortMessage.NOTE_OFF, noteDataBytes, notePosition + 1);
 		}
 
 		private void finish(int trackLength) throws InvalidMidiDataException {

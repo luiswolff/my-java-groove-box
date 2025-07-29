@@ -6,13 +6,19 @@ public enum SampleBeatFactory {
 	REGGAETON(() -> {
 		Beat beat = new Beat();
 		beat.defineTick(Instrument.ACOUSTIC_BASS_DRUM, 0, 0);
-		beat.defineTick(Instrument.ELECTRIC_SNARE, 0, 3);
 		beat.defineTick(Instrument.ACOUSTIC_BASS_DRUM, 1, 0);
-		beat.defineTick(Instrument.ELECTRIC_SNARE, 1, 2);
 		beat.defineTick(Instrument.ACOUSTIC_BASS_DRUM, 2, 0);
-		beat.defineTick(Instrument.ELECTRIC_SNARE, 2, 3);
 		beat.defineTick(Instrument.ACOUSTIC_BASS_DRUM, 3, 0);
+		beat.defineTick(Instrument.ELECTRIC_SNARE, 1, 2);
 		beat.defineTick(Instrument.ELECTRIC_SNARE, 3, 2);
+		beat.defineTick(Instrument.SIDE_STICK, 1, 2);
+		beat.defineTick(Instrument.SIDE_STICK, 3, 2);
+		beat.defineTick(Instrument.LOW_FLOOR_TOM, 0, 3);
+		beat.defineTick(Instrument.LOW_FLOOR_TOM, 2, 3);
+		beat.defineTick(Instrument.CLOSED_HI_HAT, 1, 1);
+		beat.defineTick(Instrument.CLOSED_HI_HAT, 2, 1);
+		beat.defineTick(Instrument.CLOSED_HI_HAT, 3, 1);
+		beat.defineTick(Instrument.CRASH_CYMBAL_1,  0, 0);
 		beat.setTempoInBPM(94.0f);
 		return beat;
 	}),

@@ -1,5 +1,8 @@
 package groovebox.model;
 
+/*
+ * Instrument Key Map based on https://musescore.org/sites/musescore.org/files/General%20MIDI%20Standard%20Percussion%20Set%20Key%20Map.pdf
+ */
 public enum Instrument {
 	ACOUSTIC_BASS_DRUM(35),
 	BASS_DRUM_1(36),

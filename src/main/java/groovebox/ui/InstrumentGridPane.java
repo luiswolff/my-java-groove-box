@@ -36,7 +36,7 @@ public class InstrumentGridPane extends GridPane {
 					region.setStyle("-fx-background-color: blue");
 				}
 				add(region, j, i);
-				add(new InstrumentTickCheckBox(beat, grooveBoxController), j, i);
+				add(new InstrumentTickCheckBox(beat, grooveBoxController, j - 1, i), j, i);
 			}
 		}
 	}

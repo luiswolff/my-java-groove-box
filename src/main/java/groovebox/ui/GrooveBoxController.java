@@ -1,12 +1,15 @@
 package groovebox.ui;
 
 import groovebox.model.Beat;
+import groovebox.model.SampleBeatFactory;
 import groovebox.services.SoundService;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SplitMenuButton;
 
 public class GrooveBoxController {
 
@@ -25,6 +28,9 @@ public class GrooveBoxController {
 	@FXML
 	private Button startStopButton;
 
+	@FXML
+	private SplitMenuButton sampleBeats;
+
 	private final AnimationTimer timer = new AnimationTimer() {
 		@Override
 		public void handle(long now) {
@@ -34,7 +40,7 @@ public class GrooveBoxController {
 
 	private final SoundService soundService;
 
-	private final Beat beat = new Beat();
+	private Beat beat;
 
 	public GrooveBoxController() {
 		soundService = new SoundService(() -> Platform.runLater(() -> {
@@ -42,22 +48,36 @@ public class GrooveBoxController {
 			timer.stop();
 			instrumentGridPane.highlightColumn(-1);
 		}));
-		soundService.defineTrack(beat.createTrackData());
 	}
 
 	@FXML
 	public void initialize() {
-		defineModel();
+		setModel(new Beat());
 
 		startStopButton.setGraphic(Icons.play());
+
+		for (SampleBeatFactory value : SampleBeatFactory.values()) {
+			MenuItem menuItem = new MenuItem(value.name());
+			menuItem.setUserData(value);
+			menuItem.setOnAction(event -> setModel(value.createBeat()));
+			sampleBeats.getItems().add(menuItem);
+		}
+		sampleBeats.setOnAction(event -> setModel(new Beat()));
 	}
 
-	void defineModel() {
+	private void setModel(Beat beat) {
+		this.beat = beat;
+		defineModel();
+	}
+
+	private void defineModel() {
 		infinityLoopCheckBox.setSelected(beat.isInfinityLoopCount());
 
 		instrumentGridPane.defineBeat(beat, this);
 		loopCountSpinner.defineBeat(beat, this);
 		tempoSpinner.defineBeat(beat, this);
+
+		soundService.defineTrack(beat.createTrackData());
 	}
 
 	void handleModelChanged() {
@@ -65,7 +85,7 @@ public class GrooveBoxController {
 	}
 
 	@FXML
-	protected void onHelloButtonClick() {
+	protected void onStartStopButtonClicked() {
 		if (soundService.isRunning()) {
 			soundService.stop();
 			timer.stop();

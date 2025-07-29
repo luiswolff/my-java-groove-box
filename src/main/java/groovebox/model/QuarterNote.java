@@ -36,6 +36,11 @@ public class QuarterNote {
 		ticks.remove(tick);
 	}
 
+	public boolean hasTick(Tick tick, int tickIndex) {
+		List<Tick> ticks = getTicks(tickIndex);
+		return ticks.contains(tick);
+	}
+
 	private List<Tick> getTicks(int tickIndex) {
 		return switch (tickIndex) {
 			case 0 -> ticks1;

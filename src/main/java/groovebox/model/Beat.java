@@ -10,7 +10,7 @@ public class Beat {
 	private final List<FourBarPhrase> phrases;
 	private final int resolution = 4; // four tick positions per note
 	private int loopCount = -1; // Sequencer.LOOP_CONTINUOUSLY
-	private float tempoInBPM = 94.0f;
+	private float tempoInBPM = 120.0f;
 
 	public Beat() {
 		phrases = List.of(new FourBarPhrase());
@@ -64,5 +64,10 @@ public class Beat {
 	public void removeTick(Instrument instrument, int noteIndex, int tickIndex) {
 		QuarterNote quarterNote = phrases.get(0).getQuarterNote(noteIndex);
 		quarterNote.removeTick(new Tick(instrument, 0), tickIndex);
+	}
+
+	public boolean hasTick(Instrument instrument, int noteIndex, int tickIndex) {
+		QuarterNote quarterNote = phrases.get(0).getQuarterNote(noteIndex);
+		return quarterNote.hasTick(new Tick(instrument, 0), tickIndex);
 	}
 }

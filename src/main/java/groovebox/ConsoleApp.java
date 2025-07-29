@@ -3,25 +3,14 @@ package groovebox;
 import java.util.Collections;
 import java.util.Scanner;
 
-import groovebox.model.Beat;
-import groovebox.model.Instrument;
+import groovebox.model.SampleBeatFactory;
 import groovebox.services.SoundService;
 
 public class ConsoleApp {
 	public static void main(String[] args) {
 		//noinspection resource
 		SoundService soundService = new SoundService(null);
-		Beat beat = new Beat();
-		beat.defineTick(Instrument.ACOUSTIC_BASS_DRUM, 0, 0);
-		beat.defineTick(Instrument.ELECTRIC_SNARE, 0, 3);
-		beat.defineTick(Instrument.ACOUSTIC_BASS_DRUM, 1, 0);
-		beat.defineTick(Instrument.ELECTRIC_SNARE, 1, 2);
-		beat.defineTick(Instrument.ACOUSTIC_BASS_DRUM, 2, 0);
-		beat.defineTick(Instrument.ELECTRIC_SNARE, 2, 3);
-		beat.defineTick(Instrument.ACOUSTIC_BASS_DRUM, 3, 0);
-		beat.defineTick(Instrument.ELECTRIC_SNARE, 3, 2);
-		beat.setTempoInBPM(94.0f);
-		soundService.defineTrack(beat.createTrackData());
+		soundService.defineTrack(SampleBeatFactory.REGGAETON.createBeat().createTrackData());
 
 		System.out.println("Press any key to start");
 		new Scanner(System.in).nextLine();

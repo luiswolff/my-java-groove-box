@@ -7,25 +7,26 @@
 
 <VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groovebox.ui.GrooveBoxController">
 	<padding>
-		<Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+		<Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
 	</padding>
 
 	<HBox spacing="20.0">
-		<Button fx:id="startStopButton" onAction="#onHelloButtonClick" />
+		<Button fx:id="startStopButton" onAction="#onStartStopButtonClicked"/>
+		<SplitMenuButton fx:id="sampleBeats" mnemonicParsing="false" text="clear"  />
 		<HBox>
-			<Label text="BPM: " />
-			<TempoSpinner fx:id="tempoSpinner" editable="true" prefWidth="64.0" />
+			<Label text="BPM: "/>
+			<TempoSpinner fx:id="tempoSpinner" editable="true" prefWidth="64.0"/>
 		</HBox>
 		<HBox>
-			<Label text="Infinity Loop: " />
+			<Label text="Infinity Loop: "/>
 			<CheckBox fx:id="infinityLoopCheckBox"/>
 		</HBox>
 		<HBox>
-			<Label text="Loop Count: " />
-			<LoopCountSpinner fx:id="loopCountSpinner" editable="true" prefWidth="64.0" disable="${infinityLoopCheckBox.selected}" />
+			<Label text="Loop Count: "/>
+			<LoopCountSpinner fx:id="loopCountSpinner" disable="${infinityLoopCheckBox.selected}" editable="true" prefWidth="64.0"/>
 		</HBox>
 	</HBox>
-	<ScrollPane prefWidth="600" prefViewportHeight="300">
-		<InstrumentGridPane fx:id="instrumentGridPane"  />
+	<ScrollPane prefViewportHeight="300" prefWidth="600">
+		<InstrumentGridPane fx:id="instrumentGridPane"/>
 	</ScrollPane>
 </VBox>

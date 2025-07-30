@@ -27,7 +27,7 @@ public class FourBarPhrase {
 		return note4;
 	}
 
-	QuarterNote getQuarterNote(int noteIndex) {
+	public QuarterNote getQuarterNote(int noteIndex) {
 		return switch (noteIndex) {
 			case 0 -> getNote1();
 			case 1 -> getNote2();

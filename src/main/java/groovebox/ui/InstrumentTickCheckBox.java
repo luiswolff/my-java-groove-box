@@ -1,24 +1,22 @@
 package groovebox.ui;
 
-import groovebox.model.Beat;
 import groovebox.model.Instrument;
-import javafx.beans.property.SimpleBooleanProperty;
+import groovebox.model.QuarterNote;
+import groovebox.model.Tick;
+import javafx.beans.property.BooleanProperty;
 import javafx.scene.control.CheckBox;
 
 class InstrumentTickCheckBox extends CheckBox {
-	InstrumentTickCheckBox(Beat beat, GrooveBoxController grooveBoxController, int col, int row) {
-		int noteIndex = col / 4;
-		int tickIndex = col % 4;
 
-		setOnAction(event -> {
-			if (isSelected()) {
-				beat.defineTick(Instrument.values()[row], noteIndex, tickIndex);
+	public InstrumentTickCheckBox(Instrument value, QuarterNote quarterNote, int tickIndex) {
+		BooleanProperty selectedProperty = selectedProperty();
+		selectedProperty.setValue(quarterNote.hasTick(new Tick(value, 120), tickIndex));
+		selectedProperty.addListener((event, oldValue, newValue) -> {
+			if (newValue) {
+				quarterNote.setTick(new Tick(value, 120), tickIndex);
 			} else {
-				beat.removeTick(Instrument.values()[row], noteIndex, tickIndex);
+				quarterNote.removeTick(new Tick(value, 120), tickIndex);
 			}
-			grooveBoxController.handleModelChanged();
 		});
-
-		selectedProperty().bindBidirectional(new SimpleBooleanProperty(beat.hasTick(Instrument.values()[row], noteIndex, tickIndex)));
 	}
 }

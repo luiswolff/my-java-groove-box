@@ -56,18 +56,13 @@ public class Beat {
 				.toArray(NoteDataBytes[][]::new);
 	}
 
+	public List<FourBarPhrase> getPhrases() {
+		return phrases;
+	}
+
 	public void defineTick(Instrument instrument, int noteIndex, int tickIndex) {
 		QuarterNote quarterNote = phrases.get(0).getQuarterNote(noteIndex);
 		quarterNote.setTick(new Tick(instrument, 120), tickIndex);
 	}
 
-	public void removeTick(Instrument instrument, int noteIndex, int tickIndex) {
-		QuarterNote quarterNote = phrases.get(0).getQuarterNote(noteIndex);
-		quarterNote.removeTick(new Tick(instrument, 0), tickIndex);
-	}
-
-	public boolean hasTick(Instrument instrument, int noteIndex, int tickIndex) {
-		QuarterNote quarterNote = phrases.get(0).getQuarterNote(noteIndex);
-		return quarterNote.hasTick(new Tick(instrument, 0), tickIndex);
-	}
 }

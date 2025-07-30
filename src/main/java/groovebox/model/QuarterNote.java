@@ -26,12 +26,12 @@ public class QuarterNote {
 				.toArray(NoteDataBytes[]::new);
 	}
 
-	void setTick(Tick tick, int tickIndex) {
+	public void setTick(Tick tick, int tickIndex) {
 		List<Tick> ticks = getTicks(tickIndex);
 		ticks.add(tick);
 	}
 
-	void removeTick(Tick tick, int tickIndex) {
+	public void removeTick(Tick tick, int tickIndex) {
 		List<Tick> ticks = getTicks(tickIndex);
 		ticks.remove(tick);
 	}

@@ -22,7 +22,7 @@ public class QuarterNote {
 
 	private NoteDataBytes[] toNoteDataBytes(List<Tick> ticks) {
 		return ticks.stream()
-				.map(tick -> new NoteDataBytes(tick.instrument().value, tick.velocity()))
+				.map(tick -> new NoteDataBytes(tick.getInstrument().value, tick.getVelocity()))
 				.toArray(NoteDataBytes[]::new);
 	}
 
@@ -36,9 +36,13 @@ public class QuarterNote {
 		ticks.remove(tick);
 	}
 
-	public boolean hasTick(Tick tick, int tickIndex) {
+	public Tick getTick(Tick tick, int tickIndex) {
 		List<Tick> ticks = getTicks(tickIndex);
-		return ticks.contains(tick);
+		int index = ticks.indexOf(tick);
+		if (index >= 0){
+			return ticks.get(index);
+		}
+		return null;
 	}
 
 	private List<Tick> getTicks(int tickIndex) {

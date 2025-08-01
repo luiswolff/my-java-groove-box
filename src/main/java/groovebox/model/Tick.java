@@ -2,7 +2,27 @@ package groovebox.model;
 
 import java.util.Objects;
 
-public record Tick(Instrument instrument, int velocity) {
+public class Tick {
+	private final Instrument instrument;
+	private int velocity;
+
+	public Tick(Instrument instrument, int velocity) {
+		this.instrument = instrument;
+		this.velocity = velocity;
+	}
+
+	public Instrument getInstrument() {
+		return instrument;
+	}
+
+	public int getVelocity() {
+		return velocity;
+	}
+
+	public void setVelocity(int velocity) {
+		this.velocity = velocity;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (o == null || getClass() != o.getClass())

@@ -51,7 +51,8 @@ public class Beat {
 
 	public NoteDataBytes[][] noteDataTable() {
 		return phrases.stream()
-				.flatMap(FourBarPhrase::getQuarterNoteStream)
+				.map(FourBarPhrase::getQuarterNotes)
+				.flatMap(List::stream)
 				.flatMap(QuarterNote::getNoteDataBytesStream)
 				.toArray(NoteDataBytes[][]::new);
 	}

@@ -12,6 +12,10 @@ public class QuarterNote {
 	private final List<Tick> ticks3 = new LinkedList<>();
 	private final List<Tick> ticks4 = new LinkedList<>();
 
+	public List<List<Tick>> getTicks() {
+		return List.of(ticks1, ticks2, ticks3, ticks4);
+	}
+
 	Stream<NoteDataBytes[]> getNoteDataBytesStream() {
 		return Stream.of(
 				toNoteDataBytes(ticks1),

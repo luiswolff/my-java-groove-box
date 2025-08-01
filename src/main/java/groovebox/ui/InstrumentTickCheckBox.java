@@ -1,7 +1,8 @@
 package groovebox.ui;
 
+import java.util.List;
+
 import groovebox.model.Instrument;
-import groovebox.model.QuarterNote;
 import groovebox.model.Tick;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -10,21 +11,21 @@ import javafx.scene.control.CheckBox;
 class InstrumentTickCheckBox extends CheckBox {
 	final IntegerProperty velocity = new SimpleIntegerProperty(100);
 
-	public InstrumentTickCheckBox(Instrument value, QuarterNote quarterNote, int tickIndex) {
-		Tick tick = getTick(quarterNote, tickIndex, new Tick(value, velocity.getValue()));
+	InstrumentTickCheckBox(Instrument value, List<Tick> ticks) {
+		Tick tick = getTick(ticks, new Tick(value, velocity.getValue()));
 		selectedProperty().addListener((event, oldValue, newValue) -> {
 			if (newValue) {
-				quarterNote.setTick(tick, tickIndex);
+				ticks.add(tick);
 			} else {
-				quarterNote.removeTick(tick, tickIndex);
+				ticks.remove(tick);
 			}
 		});
 		velocity.addListener((event, oldValue, newValue) -> tick.setVelocity(velocity.getValue()));
 	}
 
-	private Tick getTick(QuarterNote quarterNote, int tickIndex, Tick tick) {
-		Tick existingTick = quarterNote.getTick(tick, tickIndex);
-		if (existingTick != null) {
+	private Tick getTick(List<Tick> ticks, Tick tick) {
+		if (ticks.contains(tick)) {
+			Tick existingTick = ticks.get(ticks.indexOf(tick));
 			selectedProperty().setValue(true);
 			velocity.setValue(existingTick.getVelocity());
 			return existingTick;

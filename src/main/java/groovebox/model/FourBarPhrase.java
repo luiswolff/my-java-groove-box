@@ -1,14 +1,14 @@
 package groovebox.model;
 
-import java.util.stream.Stream;
+import java.util.List;
 
 public class FourBarPhrase {
 	private final QuarterNote note1 = new QuarterNote();
 	private final QuarterNote note2 = new QuarterNote();
 	private final QuarterNote note3 = new QuarterNote();
 	private final QuarterNote note4 = new QuarterNote();
-	Stream<QuarterNote> getQuarterNoteStream() {
-		return Stream.of(note1, note2, note3, note4);
+	public List<QuarterNote> getQuarterNotes() {
+		return List.of(note1, note2, note3, note4);
 	}
 
 	public QuarterNote getNote1() {

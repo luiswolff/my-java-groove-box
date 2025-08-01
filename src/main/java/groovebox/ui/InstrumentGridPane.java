@@ -1,30 +1,23 @@
 package groovebox.ui;
 
-import java.util.Optional;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import groovebox.model.Beat;
 import groovebox.model.FourBarPhrase;
 import groovebox.model.Instrument;
 import javafx.geometry.HPos;
-import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 public class InstrumentGridPane extends GridPane {
+	private List<QuarterNoteGrid> quarterNoteGrids;
 	// TODO: method is refactored. It is to big now.
 	void defineBeat(Beat beat, GrooveBoxController grooveBoxController) {
 		getChildren().clear();
@@ -40,47 +33,23 @@ public class InstrumentGridPane extends GridPane {
 		}
 
 		FourBarPhrase phrase = beat.getPhrases().get(0);
+
+		quarterNoteGrids = phrase.getQuarterNotes().stream()
+				.map(QuarterNoteGrid::new)
+				.collect(Collectors.toList());
 		for (int row = 0; row < Instrument.values().length; row++) {
 			Instrument instrument = Instrument.values()[row];
 			add(new Label(instrument.name()), 0, row);
-			for (int col = 1; col <= 4 * beat.getResolution(); col++) {
-				int noteIndex = (col - 1) / 4;
-				int tickIndex = (col - 1) % 4;
 
-				Rectangle rectangle = new Rectangle();
-				rectangle.setWidth(100.0 * 25.0 / 127.0);
-				rectangle.setHeight(5);
-				rectangle.setFill(Color.YELLOW);
-				StackPane region = new StackPane(rectangle);
-				region.setAlignment(Pos.BOTTOM_LEFT);
-				if (col % beat.getResolution() == 1) {
-					region.setStyle("-fx-background-color: blue");
+			List<List<Node>> childrenGrid = new LinkedList<>();
+			for (QuarterNoteGrid quarterNoteGrid : quarterNoteGrids) {
+				childrenGrid.addAll(quarterNoteGrid.createRowCells(instrument, grooveBoxController));
+			}
+			for (int i = 0; i < childrenGrid.size(); i++) {
+				List<Node> children = childrenGrid.get(i);
+				for (Node child : children) {
+					add(child, i + 1, row);
 				}
-				InstrumentTickCheckBox checkBox = new InstrumentTickCheckBox(Instrument.values()[row], phrase.getQuarterNote(noteIndex), tickIndex);
-				checkBox.selectedProperty().addListener((obs, oldVal, newVal) -> grooveBoxController.handleModelChanged());
-				checkBox.velocity.addListener((obs, oldVal, newVal) -> grooveBoxController.handleModelChanged());
-				ContextMenu contextMenu = new ContextMenu();
-				MenuItem velocityMenuItem = new MenuItem("Velocity");
-				velocityMenuItem.setOnAction(event -> {
-					Dialog<Integer> velocityDialog = new Dialog<>();
-					velocityDialog.setTitle("Velocity");
-					velocityDialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
-					Spinner<Integer> content = new Spinner<>();
-					SpinnerValueFactory.IntegerSpinnerValueFactory value = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 127, checkBox.velocity.getValue());
-					content.setValueFactory(value);
-					velocityDialog.getDialogPane().setContent(content);
-					velocityDialog.setResultConverter(b -> ButtonType.OK.equals(b) ? content.getValue() : null);
-					Optional<Integer> velocityResult = velocityDialog.showAndWait();
-					velocityResult.ifPresent(velocity -> {
-						rectangle.setWidth(velocity * 25.0 / 127.0);
-						checkBox.velocity.setValue(velocity);
-					});
-
-				});
-				contextMenu.getItems().add(velocityMenuItem);
-				checkBox.setContextMenu(contextMenu);
-				add(region, col, row);
-				add(checkBox, col, row);
 			}
 		}
 	}

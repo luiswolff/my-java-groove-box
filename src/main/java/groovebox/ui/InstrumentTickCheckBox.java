@@ -7,6 +7,8 @@ import groovebox.model.Tick;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 
 class InstrumentTickCheckBox extends CheckBox {
 	final IntegerProperty velocity = new SimpleIntegerProperty(100);
@@ -20,7 +22,8 @@ class InstrumentTickCheckBox extends CheckBox {
 				ticks.remove(tick);
 			}
 		});
-		velocity.addListener((event, oldValue, newValue) -> tick.setVelocity(velocity.getValue()));
+		velocityProperty().addListener((event, oldValue, newValue) -> tick.setVelocity(velocity.getValue()));
+		setContextMenu(createContextMenu());
 	}
 
 	private Tick getTick(List<Tick> ticks, Tick tick) {
@@ -31,6 +34,18 @@ class InstrumentTickCheckBox extends CheckBox {
 			return existingTick;
 		}
 		return tick;
+	}
+
+	private ContextMenu createContextMenu() {
+		ContextMenu contextMenu = new ContextMenu();
+		MenuItem velocityMenuItem = new MenuItem("Velocity");
+		velocityMenuItem.setOnAction(event -> ChangeVelocityDialog.editVelocity(velocity));
+		contextMenu.getItems().add(velocityMenuItem);
+		return contextMenu;
+	}
+
+	IntegerProperty velocityProperty() {
+		return velocity;
 	}
 
 }

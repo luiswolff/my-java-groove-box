@@ -17,7 +17,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 
 public class InstrumentGridPane extends GridPane {
-	private List<QuarterNoteGrid> quarterNoteGrids;
+	private List<InstrumentTickQuarterNoteGrid> quarterNoteGrids;
 	// TODO: method is refactored. It is to big now.
 	void defineBeat(Beat beat, GrooveBoxController grooveBoxController) {
 		getChildren().clear();
@@ -35,14 +35,14 @@ public class InstrumentGridPane extends GridPane {
 		FourBarPhrase phrase = beat.getPhrases().get(0);
 
 		quarterNoteGrids = phrase.getQuarterNotes().stream()
-				.map(QuarterNoteGrid::new)
+				.map(InstrumentTickQuarterNoteGrid::new)
 				.collect(Collectors.toList());
 		for (int row = 0; row < Instrument.values().length; row++) {
 			Instrument instrument = Instrument.values()[row];
 			add(new Label(instrument.name()), 0, row);
 
 			List<List<Node>> childrenGrid = new LinkedList<>();
-			for (QuarterNoteGrid quarterNoteGrid : quarterNoteGrids) {
+			for (InstrumentTickQuarterNoteGrid quarterNoteGrid : quarterNoteGrids) {
 				childrenGrid.addAll(quarterNoteGrid.createRowCells(instrument, grooveBoxController));
 			}
 			for (int i = 0; i < childrenGrid.size(); i++) {

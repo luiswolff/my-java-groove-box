@@ -73,14 +73,15 @@ public class GrooveBoxController {
 	private void defineModel() {
 		infinityLoopCheckBox.setSelected(beat.isInfinityLoopCount());
 
-		instrumentGridPane.defineBeat(beat, this);
+		instrumentGridPane.defineBeat(beat.getPhrases().get(0));
 		loopCountSpinner.defineBeat(beat, this);
 		tempoSpinner.defineBeat(beat, this);
 
 		soundService.defineTrack(beat.createTrackData());
 	}
 
-	void handleModelChanged() {
+	@FXML
+	protected void handleModelChanged() {
 		soundService.defineTrack(beat.createTrackData());
 	}
 

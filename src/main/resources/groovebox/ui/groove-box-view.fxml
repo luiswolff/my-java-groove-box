@@ -27,6 +27,6 @@
 		</HBox>
 	</HBox>
 	<ScrollPane prefViewportHeight="300" prefWidth="600">
-		<InstrumentGridPane fx:id="instrumentGridPane"/>
+		<InstrumentGridPane fx:id="instrumentGridPane" onAction="#handleModelChanged"/>
 	</ScrollPane>
 </VBox>

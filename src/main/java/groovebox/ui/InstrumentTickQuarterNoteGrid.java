@@ -10,7 +10,6 @@ import groovebox.model.QuarterNote;
 import javafx.beans.property.ObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 
 class InstrumentTickQuarterNoteGrid {
 	private final List<InstrumentTickColumn> tickColumns;
@@ -24,10 +23,10 @@ class InstrumentTickQuarterNoteGrid {
 		this.tickColumns = Collections.unmodifiableList(tickColumns);
 	}
 
-	List<List<Node>> createRowCells(Instrument instrument, Runnable onModelChanged) {
-		List<List<Node>> rowCells = new ArrayList<>(tickColumns.size());
+	List<InstrumentTickCellNodes> createRowCells(Instrument instrument, InstrumentTickPositionEnum position) {
+		List<InstrumentTickCellNodes> rowCells = new ArrayList<>(tickColumns.size());
 		for (InstrumentTickColumn tickColumn : tickColumns) {
-			rowCells.add(tickColumn.createCellNotes(instrument, onModelChanged));
+			rowCells.add(tickColumn.createCellNotes(instrument, position));
 			onActions.addAll(tickColumn.onActions);
 		}
 		return rowCells;

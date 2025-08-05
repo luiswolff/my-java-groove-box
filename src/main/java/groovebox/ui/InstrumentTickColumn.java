@@ -8,7 +8,6 @@ import groovebox.model.Tick;
 import javafx.beans.property.ObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 
 class InstrumentTickColumn {
 	private final List<Tick> ticks;
@@ -20,15 +19,13 @@ class InstrumentTickColumn {
 		this.leadingColumn = leadingColumn;
 	}
 
-	List<Node> createCellNotes(Instrument instrument, Runnable onModelChanged) {
+	InstrumentTickCellNodes createCellNotes(Instrument instrument, InstrumentTickPositionEnum position) {
 		InstrumentTickCheckBox checkBox = new InstrumentTickCheckBox(instrument, ticks);
-		InstrumentTickBackgroundPane backgroundPane = new InstrumentTickBackgroundPane(leadingColumn, checkBox.velocityProperty());
+		InstrumentTickBackgroundPane backgroundPane = new InstrumentTickBackgroundPane(leadingColumn, checkBox.velocityProperty(), position);
 
 		onActions.add(checkBox.onActionProperty());
-		checkBox.selectedProperty().addListener((obs, oldVal, newVal) -> onModelChanged.run());
-		checkBox.velocityProperty().addListener((obs, oldVal, newVal) -> onModelChanged.run());
 
-		return List.of(backgroundPane, checkBox);
+		return new InstrumentTickCellNodes(checkBox, backgroundPane);
 	}
 
 }

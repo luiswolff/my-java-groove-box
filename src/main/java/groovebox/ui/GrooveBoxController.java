@@ -34,7 +34,7 @@ public class GrooveBoxController {
 	private final AnimationTimer timer = new AnimationTimer() {
 		@Override
 		public void handle(long now) {
-			instrumentGridPane.highlightColumn((int) (soundService.getTickPosition() + 1));
+			instrumentGridPane.highlightColumn((int) (soundService.getTickPosition()));
 		}
 	};
 

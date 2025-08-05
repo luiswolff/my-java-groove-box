@@ -12,7 +12,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -21,27 +20,49 @@ import javafx.scene.layout.RowConstraints;
 
 public class InstrumentGridPane extends GridPane {
 	private final ObjectProperty<EventHandler<ActionEvent>> onAction = new SimpleObjectProperty<>();
+	private final Instrument[] instruments = Instrument.values();
+	private InstrumentTickBackgroundPane[][] cellTable;
 
 	void defineBeat(FourBarPhrase phrase) {
 		clearGrid();
 		List<InstrumentTickQuarterNoteGrid> quarterNoteGrids = createSubGrids(phrase);
-		for (int row = 0; row < Instrument.values().length; row++) {
+		for (int row = 0; row < instruments.length; row++) {
 			getRowConstraints().add(new RowConstraints(30.0, 30.0, 30.0, Priority.SOMETIMES, VPos.CENTER, true));
 
-			Instrument instrument = Instrument.values()[row];
+			Instrument instrument = instruments[row];
 			addLabelColumnCell(row, instrument);
 
-			List<List<Node>> childrenGrid = createTickColumns(quarterNoteGrids, instrument);
-			for (int i = 0; i < childrenGrid.size(); i++) {
-				addTickColumnCell(row, childrenGrid, i);
+			List<InstrumentTickCellNodes> childrenGrid = createTickColumns(quarterNoteGrids, instrument, getPosition(row));
+			for (int col = 0; col < childrenGrid.size(); col++) {
+				InstrumentTickCellNodes node = childrenGrid.get(col);
+				addListeners(node.foreground());
+				addTickColumnCell(row, col + 1, node.foreground(), node.background());
+				indexBackground(node.background(), row, col, childrenGrid.size());
 			}
 		}
+	}
+
+	private void indexBackground(InstrumentTickBackgroundPane background, int row, int col, int size) {
+		if (cellTable[row] == null) {
+			cellTable[row] = new InstrumentTickBackgroundPane[size];
+		}
+		cellTable[row][col] = background;
+	}
+
+	private InstrumentTickPositionEnum getPosition(int row) {
+		if (row == 0) {
+			return InstrumentTickPositionEnum.TOP;
+		} else if (row == instruments.length - 1) {
+			return InstrumentTickPositionEnum.BOTTOM;
+		}
+		return InstrumentTickPositionEnum.CENTER;
 	}
 
 	private void clearGrid() {
 		getChildren().clear();
 		getColumnConstraints().clear();
 		getRowConstraints().clear();
+		cellTable =  new InstrumentTickBackgroundPane[instruments.length][];
 	}
 
 	private static List<InstrumentTickQuarterNoteGrid> createSubGrids(FourBarPhrase phrase) {
@@ -57,41 +78,40 @@ public class InstrumentGridPane extends GridPane {
 		add(new Label(instrument.name()), 0, row);
 	}
 
-	private void addTickColumnCell(int row, List<List<Node>> childrenGrid, int i) {
+	private void addTickColumnCell(int row, int col, InstrumentTickCheckBox checkBox, InstrumentTickBackgroundPane background) {
 		if (row == 0) {
 			getColumnConstraints().add(new ColumnConstraints(25.0, 25.0, 25.0, Priority.SOMETIMES, HPos.CENTER, true));
 		}
-		List<Node> children = childrenGrid.get(i);
-		for (Node child : children) {
-			add(child, i + 1, row);
-		}
+		add(background, col, row);
+		add(checkBox, col, row);
 	}
 
-	private List<List<Node>> createTickColumns(List<InstrumentTickQuarterNoteGrid> quarterNoteGrids, Instrument instrument) {
-		List<List<Node>> childrenGrid = new LinkedList<>();
+	private List<InstrumentTickCellNodes> createTickColumns(List<InstrumentTickQuarterNoteGrid> quarterNoteGrids, Instrument instrument,
+			InstrumentTickPositionEnum position) {
+		List<InstrumentTickCellNodes> childrenGrid = new LinkedList<>();
 		for (InstrumentTickQuarterNoteGrid quarterNoteGrid : quarterNoteGrids) {
-			childrenGrid.addAll(quarterNoteGrid.createRowCells(instrument, this::modelChanged));
+			childrenGrid.addAll(quarterNoteGrid.createRowCells(instrument, position));
 		}
 		return new ArrayList<>(childrenGrid);
+	}
+
+	private void addListeners(InstrumentTickCheckBox checkBox) {
+		checkBox.selectedProperty().addListener((obs, oldVal, newVal) -> modelChanged());
+		checkBox.velocityProperty().addListener((obs, oldVal, newVal) -> modelChanged());
 	}
 
 	private void modelChanged() {
 		onAction.get().handle(new ActionEvent());
 	}
 
-	public void highlightColumn(int l) {
-		for (Node node : getChildren()) {
-			if (!(node instanceof InstrumentTickCheckBox) && GridPane.getColumnIndex(node) == l) {
-				String borderStyle = "-fx-border-color: red; " + switch (GridPane.getRowIndex(node)) {
-					case 0 -> "-fx-border-width: 2px 2px 0 2px;";
-					case 46 -> "-fx-border-width: 0 2px 2px 2px;";
-					default -> "-fx-border-width: 0 2px 0 2px;";
-				};
-				String backgroundStyle = l % 4 == 1 ? "-fx-background-color: blue; " : "";
-				node.setStyle(backgroundStyle + borderStyle);
-			} else if (!(node instanceof InstrumentTickCheckBox)) {
-				String backgroundStyle = GridPane.getColumnIndex(node) % 4 == 1 ? "-fx-background-color: blue; " : "";
-				node.setStyle(backgroundStyle);
+	public void highlightColumn(int col) {
+		for (InstrumentTickBackgroundPane[] instrumentTickBackgroundPanes : cellTable) {
+			for (int j = 0; j < instrumentTickBackgroundPanes.length; j++) {
+				if (j == col) {
+					instrumentTickBackgroundPanes[j].highlight();
+				} else {
+					instrumentTickBackgroundPanes[j].downplay();
+				}
 			}
 		}
 	}

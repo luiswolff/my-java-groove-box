@@ -11,8 +11,8 @@
 	</padding>
 
 	<HBox spacing="20.0">
-		<Button fx:id="startStopButton" onAction="#onStartStopButtonClicked"/>
-		<SplitMenuButton fx:id="sampleBeats" mnemonicParsing="false" text="clear"  />
+		<Button fx:id="startStopButton" onAction="#onStartStopButtonClicked" />
+		<SampleBeatMenu fx:id="sampleBeats" mnemonicParsing="false" text="clear"  />
 		<HBox>
 			<Label text="BPM: "/>
 			<TempoSpinner fx:id="tempoSpinner" editable="true" prefWidth="64.0"/>
@@ -27,6 +27,6 @@
 		</HBox>
 	</HBox>
 	<ScrollPane prefViewportHeight="300" prefWidth="600">
-		<InstrumentGridPane fx:id="instrumentGridPane" onAction="#handleModelChanged"/>
+		<InstrumentGridPane fx:id="instrumentGridPane"/>
 	</ScrollPane>
 </VBox>

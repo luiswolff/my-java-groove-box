@@ -8,8 +8,6 @@ import groovebox.model.FourBarPhrase;
 import groovebox.model.Instrument;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.control.Label;
@@ -19,13 +17,24 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 
 public class InstrumentGridPane extends GridPane {
-	private final ObjectProperty<EventHandler<ActionEvent>> onAction = new SimpleObjectProperty<>();
+	private final ObjectProperty<FourBarPhrase> phrase = new SimpleObjectProperty<>();
+
+	private Runnable changeCallback = null;
+
+	public InstrumentGridPane() {
+		phrase.addListener((observable, oldValue, newValue) -> defineBeat());
+	}
+
+	ObjectProperty<FourBarPhrase> phraseProperty() {
+		return phrase;
+	}
+
 	private final Instrument[] instruments = Instrument.values();
 	private InstrumentTickBackgroundPane[][] cellTable;
 
-	void defineBeat(FourBarPhrase phrase) {
+	private void defineBeat() {
 		clearGrid();
-		List<InstrumentTickQuarterNoteGrid> quarterNoteGrids = createSubGrids(phrase);
+		List<InstrumentTickQuarterNoteGrid> quarterNoteGrids = createSubGrids();
 		for (int row = 0; row < instruments.length; row++) {
 			getRowConstraints().add(new RowConstraints(30.0, 30.0, 30.0, Priority.SOMETIMES, VPos.CENTER, true));
 
@@ -65,8 +74,8 @@ public class InstrumentGridPane extends GridPane {
 		cellTable =  new InstrumentTickBackgroundPane[instruments.length][];
 	}
 
-	private static List<InstrumentTickQuarterNoteGrid> createSubGrids(FourBarPhrase phrase) {
-		return phrase.getQuarterNotes().stream()
+	private List<InstrumentTickQuarterNoteGrid> createSubGrids() {
+		return phrase.get().getQuarterNotes().stream()
 				.map(InstrumentTickQuarterNoteGrid::new)
 				.toList();
 	}
@@ -101,7 +110,7 @@ public class InstrumentGridPane extends GridPane {
 	}
 
 	private void modelChanged() {
-		onAction.get().handle(new ActionEvent());
+		changeCallback.run();
 	}
 
 	public void highlightColumn(int col) {
@@ -116,17 +125,7 @@ public class InstrumentGridPane extends GridPane {
 		}
 	}
 
-	public final ObjectProperty<EventHandler<ActionEvent>> onActionProperty() {
-		return onAction;
-	}
-
-	@SuppressWarnings("unused") // used by FXML
-	public final void setOnAction(EventHandler<ActionEvent> value) {
-		onActionProperty().set(value);
-	}
-
-	@SuppressWarnings("unused") // used by FXML
-	public final EventHandler<ActionEvent> getOnAction() {
-		return onActionProperty().get();
+	void setChangedCallback(Runnable changeCallback) {
+		this.changeCallback = changeCallback;
 	}
 }

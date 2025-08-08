@@ -1,19 +1,35 @@
 package groovebox.ui;
 
 import groovebox.model.Beat;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 
 public class TempoSpinner extends Spinner<Integer> {
 
-	void defineBeat(Beat beat, GrooveBoxController grooveBoxController) {
+	private final ObjectProperty<Beat> beat = new SimpleObjectProperty<>();
+	private Runnable changeCallback = null;
+
+	public TempoSpinner() {
+		beat.addListener((observable, oldValue, newValue) -> defineBeat());
+	}
+
+	private void defineBeat() {
 		SpinnerValueFactory.IntegerSpinnerValueFactory value = new SpinnerValueFactory.IntegerSpinnerValueFactory(20, 300,
-				(int) beat.getTempoInBPM());
+				(int) beat.get().getTempoInBPM());
 		value.valueProperty().addListener((observable, oldValue, newValue) -> {
-			beat.setTempoInBPM(newValue);
-			grooveBoxController.handleModelChanged();
+			beat.get().setTempoInBPM(newValue);
+			changeCallback.run();
 		});
 		setValueFactory(value);
+	}
 
+	ObjectProperty<Beat> beatProperty() {
+		return beat;
+	}
+
+	void setChangeCallback(Runnable changeCallback) {
+		this.changeCallback = changeCallback;
 	}
 }

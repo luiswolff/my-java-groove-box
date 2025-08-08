@@ -8,8 +8,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SplitMenuButton;
 
 public class GrooveBoxController {
 
@@ -29,7 +27,9 @@ public class GrooveBoxController {
 	private Button startStopButton;
 
 	@FXML
-	private SplitMenuButton sampleBeats;
+	private SampleBeatMenu sampleBeats;
+
+	private final GrooveBoxModel grooveBoxModel = new GrooveBoxModel();
 
 	private final AnimationTimer timer = new AnimationTimer() {
 		@Override
@@ -40,11 +40,9 @@ public class GrooveBoxController {
 
 	private final SoundService soundService;
 
-	private Beat beat;
-
 	public GrooveBoxController() {
 		soundService = new SoundService(() -> Platform.runLater(() -> {
-			startStopButton.setGraphic(Icons.play());
+			grooveBoxModel.trackIsPaused();
 			timer.stop();
 			instrumentGridPane.highlightColumn(-1);
 		}));
@@ -52,36 +50,25 @@ public class GrooveBoxController {
 
 	@FXML
 	public void initialize() {
-		setModel(new Beat());
+		instrumentGridPane.setChangedCallback(this::handleModelChanged);
+		loopCountSpinner.setChangeCallback(this::handleModelChanged);
+		tempoSpinner.setChangeCallback(this::handleModelChanged);
 
-		startStopButton.setGraphic(Icons.play());
+		startStopButton.graphicProperty().bind(grooveBoxModel.playButtonGraphicProperty());
+		infinityLoopCheckBox.selectedProperty().bindBidirectional(grooveBoxModel.infinityProperty());
 
-		for (SampleBeatFactory value : SampleBeatFactory.values()) {
-			MenuItem menuItem = new MenuItem(value.name());
-			menuItem.setUserData(value);
-			menuItem.setOnAction(event -> setModel(value.createBeat()));
-			sampleBeats.getItems().add(menuItem);
-		}
-		sampleBeats.setOnAction(event -> setModel(new Beat()));
+		instrumentGridPane.phraseProperty().bind(grooveBoxModel.phraseProperty());
+		loopCountSpinner.beatProperty().bind(grooveBoxModel.beatProperty());
+		tempoSpinner.beatProperty().bind(grooveBoxModel.beatProperty());
+
+		grooveBoxModel.beatProperty().bind(sampleBeats.beatProperty());
+		grooveBoxModel.beatProperty().addListener((observable, oldValue, newValue) -> handleModelChanged());
+
+		sampleBeats.defineSamples(SampleBeatFactory.values());
 	}
 
-	private void setModel(Beat beat) {
-		this.beat = beat;
-		defineModel();
-	}
-
-	private void defineModel() {
-		infinityLoopCheckBox.setSelected(beat.isInfinityLoopCount());
-
-		instrumentGridPane.defineBeat(beat.getPhrases().get(0));
-		loopCountSpinner.defineBeat(beat, this);
-		tempoSpinner.defineBeat(beat, this);
-
-		soundService.defineTrack(beat.createTrackData());
-	}
-
-	@FXML
-	protected void handleModelChanged() {
+	private void handleModelChanged() {
+		Beat beat = grooveBoxModel.beatProperty().get();
 		soundService.defineTrack(beat.createTrackData());
 	}
 
@@ -91,11 +78,11 @@ public class GrooveBoxController {
 			soundService.stop();
 			timer.stop();
 			instrumentGridPane.highlightColumn(-1);
-			startStopButton.setGraphic(Icons.play());
+			grooveBoxModel.trackIsPaused();
 		} else {
 			soundService.start();
 			timer.start();
-			startStopButton.setGraphic(Icons.stop());
+			grooveBoxModel.trackIsPlaying();
 		}
 	}
 

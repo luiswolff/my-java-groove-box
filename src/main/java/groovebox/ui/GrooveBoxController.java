@@ -6,7 +6,6 @@ import groovebox.services.SoundService;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 
 public class GrooveBoxController {
@@ -21,10 +20,10 @@ public class GrooveBoxController {
 	private LoopCountSpinner loopCountSpinner;
 
 	@FXML
-	private CheckBox infinityLoopCheckBox;
+	private InfinityLoopCheckBox infinityLoopCheckBox;
 
 	@FXML
-	private Button startStopButton;
+	private PlayStopButton playStopButton;
 
 	@FXML
 	private SampleBeatMenu sampleBeats;
@@ -54,8 +53,8 @@ public class GrooveBoxController {
 		loopCountSpinner.setChangeCallback(this::handleModelChanged);
 		tempoSpinner.setChangeCallback(this::handleModelChanged);
 
-		startStopButton.graphicProperty().bind(grooveBoxModel.playButtonGraphicProperty());
-		infinityLoopCheckBox.selectedProperty().bindBidirectional(grooveBoxModel.infinityProperty());
+		playStopButton.apply(grooveBoxModel);
+		infinityLoopCheckBox.apply(grooveBoxModel);
 
 		instrumentGridPane.phraseProperty().bind(grooveBoxModel.phraseProperty());
 		loopCountSpinner.beatProperty().bind(grooveBoxModel.beatProperty());

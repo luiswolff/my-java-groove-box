@@ -11,7 +11,7 @@
 	</padding>
 
 	<HBox spacing="20.0">
-		<Button fx:id="startStopButton" onAction="#onStartStopButtonClicked" />
+		<PlayStopButton fx:id="playStopButton" onAction="#onStartStopButtonClicked" />
 		<SampleBeatMenu fx:id="sampleBeats" mnemonicParsing="false" text="clear"  />
 		<HBox>
 			<Label text="BPM: "/>
@@ -19,7 +19,7 @@
 		</HBox>
 		<HBox>
 			<Label text="Infinity Loop: "/>
-			<CheckBox fx:id="infinityLoopCheckBox"/>
+			<InfinityLoopCheckBox fx:id="infinityLoopCheckBox"/>
 		</HBox>
 		<HBox>
 			<Label text="Loop Count: "/>

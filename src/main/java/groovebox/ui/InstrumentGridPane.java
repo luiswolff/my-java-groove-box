@@ -29,7 +29,12 @@ public class InstrumentGridPane extends GridPane {
 		return phrase;
 	}
 
+	void apply(GrooveBoxModel model, Runnable changeCallback) {
+		phraseProperty().bind(model.phraseProperty());
+		this.changeCallback = changeCallback;
+	}
 	private final Instrument[] instruments = Instrument.values();
+
 	private InstrumentTickBackgroundPane[][] cellTable;
 
 	private void defineBeat() {
@@ -123,9 +128,5 @@ public class InstrumentGridPane extends GridPane {
 				}
 			}
 		}
-	}
-
-	void setChangedCallback(Runnable changeCallback) {
-		this.changeCallback = changeCallback;
 	}
 }

@@ -41,7 +41,8 @@ public class LoopCountSpinner extends Spinner<Integer> {
 		return beat;
 	}
 
-	void setChangeCallback(Runnable changeCallback) {
+	void apply(GrooveBoxModel model, Runnable changeCallback) {
 		this.changeCallback = changeCallback;
+		beatProperty().bind(model.beatProperty());
 	}
 }

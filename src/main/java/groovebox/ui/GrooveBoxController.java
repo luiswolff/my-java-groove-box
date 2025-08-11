@@ -1,12 +1,13 @@
 package groovebox.ui;
 
+import java.util.function.Supplier;
+
 import groovebox.model.Beat;
-import groovebox.model.SampleBeatFactory;
 import groovebox.services.SoundService;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
 
 public class GrooveBoxController {
 
@@ -26,7 +27,7 @@ public class GrooveBoxController {
 	private PlayStopButton playStopButton;
 
 	@FXML
-	private SampleBeatMenu sampleBeats;
+	private SampleBeatMenu sampleBeatMenu;
 
 	private final GrooveBoxModel grooveBoxModel = new GrooveBoxModel();
 
@@ -49,21 +50,12 @@ public class GrooveBoxController {
 
 	@FXML
 	public void initialize() {
-		instrumentGridPane.setChangedCallback(this::handleModelChanged);
-		loopCountSpinner.setChangeCallback(this::handleModelChanged);
-		tempoSpinner.setChangeCallback(this::handleModelChanged);
-
-		playStopButton.apply(grooveBoxModel);
+		instrumentGridPane.apply(grooveBoxModel, this::handleModelChanged);
+		loopCountSpinner.apply(grooveBoxModel, this::handleModelChanged);
+		tempoSpinner.apply(grooveBoxModel, this::handleModelChanged);
 		infinityLoopCheckBox.apply(grooveBoxModel);
-
-		instrumentGridPane.phraseProperty().bind(grooveBoxModel.phraseProperty());
-		loopCountSpinner.beatProperty().bind(grooveBoxModel.beatProperty());
-		tempoSpinner.beatProperty().bind(grooveBoxModel.beatProperty());
-
-		grooveBoxModel.beatProperty().bind(sampleBeats.beatProperty());
-		grooveBoxModel.beatProperty().addListener((observable, oldValue, newValue) -> handleModelChanged());
-
-		sampleBeats.defineSamples(SampleBeatFactory.values());
+		sampleBeatMenu.apply(grooveBoxModel);
+		playStopButton.apply(grooveBoxModel);
 	}
 
 	private void handleModelChanged() {
@@ -83,6 +75,21 @@ public class GrooveBoxController {
 			timer.start();
 			grooveBoxModel.trackIsPlaying();
 		}
+	}
+
+	@FXML
+	protected void onSampleBeatChanged(ActionEvent event) {
+		Object source = event.getSource();
+		Supplier<Beat> beatSupplier;
+		if (source instanceof SampleBeatMenu) {
+			//noinspection unchecked
+			beatSupplier = (Supplier<Beat>) ((SampleBeatMenu) source).getUserData();
+		} else {
+			//noinspection unchecked
+			beatSupplier = (Supplier<Beat>) ((SampleBeatMenu.SampleBeatMenuItem)source).getUserData();
+		}
+		grooveBoxModel.setBeat(beatSupplier.get());
+		handleModelChanged();
 	}
 
 	public void close() {

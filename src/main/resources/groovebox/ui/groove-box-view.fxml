@@ -12,7 +12,7 @@
 
 	<HBox spacing="20.0">
 		<PlayStopButton fx:id="playStopButton" onAction="#onStartStopButtonClicked" />
-		<SampleBeatMenu fx:id="sampleBeats" mnemonicParsing="false" text="clear"  />
+		<SampleBeatMenu fx:id="sampleBeatMenu" mnemonicParsing="false" text="clear" onAction="#onSampleBeatChanged" />
 		<HBox>
 			<Label text="BPM: "/>
 			<TempoSpinner fx:id="tempoSpinner" editable="true" prefWidth="64.0"/>

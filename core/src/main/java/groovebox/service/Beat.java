@@ -39,7 +39,7 @@ public class Beat {
 		return loopCount < 0;
 	}
 
-	public NoteDataBytes[][] noteDataTable() {
+	NoteDataBytes[][] noteDataTable() {
 		return phrases.stream()
 				.map(FourBarPhrase::getQuarterNotes)
 				.flatMap(List::stream)

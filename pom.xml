@@ -3,6 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.example</groupId>
 	<artifactId>my-java-groove-box</artifactId>
+	<packaging>pom</packaging>
 	<version>1.0-SNAPSHOT</version>
 	<name>Archetype - my-java-groove-box</name>
 	<url>http://maven.apache.org</url>
@@ -11,19 +12,10 @@
 		<maven.compiler.source>21</maven.compiler.source>
 		<maven.compiler.target>21</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<javaFx.version>22.0.2</javaFx.version>
 	</properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.openjfx</groupId>
-			<artifactId>javafx-controls</artifactId>
-			<version>${javaFx.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.openjfx</groupId>
-			<artifactId>javafx-fxml</artifactId>
-			<version>${javaFx.version}</version>
-		</dependency>
-	</dependencies>
+	<modules>
+		<module>core</module>
+		<module>desktop-ui</module>
+	</modules>
 </project>

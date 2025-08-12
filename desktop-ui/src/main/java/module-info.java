@@ -1,5 +1,5 @@
-module groovebox {
-	requires java.desktop;
+module groove.box.ui {
+	requires groove.box.core;
 	requires javafx.controls;
 	requires javafx.graphics;
 	requires javafx.fxml;

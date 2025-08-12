@@ -34,7 +34,7 @@ public class GrooveBoxController {
 	private final AnimationTimer timer = new AnimationTimer() {
 		@Override
 		public void handle(long now) {
-			instrumentGridPane.highlightColumn((int) (soundService.getTickPosition()));
+			grooveBoxModel.setHighlightedTick((int) soundService.getTickPosition());
 		}
 	};
 
@@ -44,7 +44,6 @@ public class GrooveBoxController {
 		soundService = new SoundService(() -> Platform.runLater(() -> {
 			grooveBoxModel.trackIsPaused();
 			timer.stop();
-			instrumentGridPane.highlightColumn(-1);
 		}));
 	}
 
@@ -68,7 +67,6 @@ public class GrooveBoxController {
 		if (soundService.isRunning()) {
 			soundService.stop();
 			timer.stop();
-			instrumentGridPane.highlightColumn(-1);
 			grooveBoxModel.trackIsPaused();
 		} else {
 			soundService.start();
@@ -95,6 +93,5 @@ public class GrooveBoxController {
 	public void close() {
 		soundService.close();
 		timer.stop();
-		instrumentGridPane.highlightColumn(-1);
 	}
 }

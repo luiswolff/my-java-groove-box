@@ -6,9 +6,11 @@ import groovebox.model.Beat;
 import groovebox.model.FourBarPhrase;
 import groovebox.model.SampleBeatFactory;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -20,6 +22,7 @@ class GrooveBoxModel {
 	private final ObjectProperty<FourBarPhrase> phrase = new SimpleObjectProperty<>();
 	private final BooleanProperty infinity = new SimpleBooleanProperty(false);
 	private final ListProperty<SampleBeatFactory> sampleBeatFactories = new SimpleListProperty<>(FXCollections.observableArrayList());
+	private final IntegerProperty highlightedTick = new SimpleIntegerProperty(-1);
 
 	GrooveBoxModel() {
 		beat.addListener((observable, oldValue, newValue) -> phrase.setValue(getFirstPhrase()));
@@ -53,19 +56,28 @@ class GrooveBoxModel {
 		return sampleBeatFactories;
 	}
 
+	IntegerProperty highlightedTickProperty() {
+		return highlightedTick;
+	}
+
 	void trackIsPlaying() {
 		playButtonGraphic.setValue(Icons.stop());
 	}
 
 	void trackIsPaused() {
 		playButtonGraphic.setValue(Icons.play());
+		highlightedTick.setValue(-1);
 	}
 
-	public void setBeat(Beat beat) {
+	void setBeat(Beat beat) {
 		beatProperty().set(beat);
 	}
 
-	public void addSampleBeatFactory(SampleBeatFactory sampleBeatFactory) {
+	void addSampleBeatFactory(SampleBeatFactory sampleBeatFactory) {
 		sampleBeatFactories.add(sampleBeatFactory);
+	}
+
+	void setHighlightedTick(int tick) {
+		highlightedTick.setValue(tick);
 	}
 }

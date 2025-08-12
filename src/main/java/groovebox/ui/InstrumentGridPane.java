@@ -6,7 +6,9 @@ import java.util.List;
 
 import groovebox.model.FourBarPhrase;
 import groovebox.model.Instrument;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
@@ -18,19 +20,26 @@ import javafx.scene.layout.RowConstraints;
 
 public class InstrumentGridPane extends GridPane {
 	private final ObjectProperty<FourBarPhrase> phrase = new SimpleObjectProperty<>();
+	private final IntegerProperty highlightedTick =  new SimpleIntegerProperty();
 
 	private Runnable changeCallback = null;
 
 	public InstrumentGridPane() {
 		phrase.addListener((observable, oldValue, newValue) -> defineBeat());
+		highlightedTickProperty().addListener((observable, oldValue, newValue) -> highlightTick());
 	}
 
 	ObjectProperty<FourBarPhrase> phraseProperty() {
 		return phrase;
 	}
 
+	IntegerProperty highlightedTickProperty() {
+		return highlightedTick;
+	}
+
 	void apply(GrooveBoxModel model, Runnable changeCallback) {
 		phraseProperty().bind(model.phraseProperty());
+		highlightedTickProperty().bind(model.highlightedTickProperty());
 		this.changeCallback = changeCallback;
 	}
 	private final Instrument[] instruments = Instrument.values();
@@ -118,7 +127,8 @@ public class InstrumentGridPane extends GridPane {
 		changeCallback.run();
 	}
 
-	public void highlightColumn(int col) {
+	private void highlightTick() {
+		int col = highlightedTickProperty().get();
 		for (InstrumentTickBackgroundPane[] instrumentTickBackgroundPanes : cellTable) {
 			for (int j = 0; j < instrumentTickBackgroundPanes.length; j++) {
 				if (j == col) {

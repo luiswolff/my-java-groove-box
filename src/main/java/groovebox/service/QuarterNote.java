@@ -1,10 +1,10 @@
-package groovebox.model;
+package groovebox.service;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import groovebox.services.NoteDataBytes;
+import groovebox.adapter.NoteDataBytes;
 
 public class QuarterNote {
 	private final List<Tick> ticks1 = new LinkedList<>();
@@ -33,20 +33,6 @@ public class QuarterNote {
 	public void setTick(Tick tick, int tickIndex) {
 		List<Tick> ticks = getTicks(tickIndex);
 		ticks.add(tick);
-	}
-
-	public void removeTick(Tick tick, int tickIndex) {
-		List<Tick> ticks = getTicks(tickIndex);
-		ticks.remove(tick);
-	}
-
-	public Tick getTick(Tick tick, int tickIndex) {
-		List<Tick> ticks = getTicks(tickIndex);
-		int index = ticks.indexOf(tick);
-		if (index >= 0){
-			return ticks.get(index);
-		}
-		return null;
 	}
 
 	private List<Tick> getTicks(int tickIndex) {

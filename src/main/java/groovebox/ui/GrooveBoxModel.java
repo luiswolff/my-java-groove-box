@@ -2,9 +2,9 @@ package groovebox.ui;
 
 import java.util.Arrays;
 
-import groovebox.model.Beat;
-import groovebox.model.FourBarPhrase;
-import groovebox.model.SampleBeatFactory;
+import groovebox.service.Beat;
+import groovebox.service.FourBarPhrase;
+import groovebox.service.SampleBeatFactory;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;

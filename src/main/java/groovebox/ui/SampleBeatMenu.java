@@ -3,8 +3,8 @@ package groovebox.ui;
 import java.util.List;
 import java.util.function.Supplier;
 
-import groovebox.model.Beat;
-import groovebox.model.SampleBeatFactory;
+import groovebox.service.Beat;
+import groovebox.service.SampleBeatFactory;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.ListChangeListener;

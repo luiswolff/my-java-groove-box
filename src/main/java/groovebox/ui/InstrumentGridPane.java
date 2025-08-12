@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import groovebox.model.FourBarPhrase;
-import groovebox.model.Instrument;
+import groovebox.service.FourBarPhrase;
+import groovebox.service.Instrument;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;

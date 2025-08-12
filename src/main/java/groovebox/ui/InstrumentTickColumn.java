@@ -3,8 +3,8 @@ package groovebox.ui;
 import java.util.LinkedList;
 import java.util.List;
 
-import groovebox.model.Instrument;
-import groovebox.model.Tick;
+import groovebox.service.Instrument;
+import groovebox.service.Tick;
 import javafx.beans.property.ObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

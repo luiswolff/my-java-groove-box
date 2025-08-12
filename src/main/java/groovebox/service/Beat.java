@@ -1,14 +1,12 @@
-package groovebox.model;
+package groovebox.service;
 
 import java.util.List;
 
-import groovebox.services.NoteDataBytes;
-import groovebox.services.TrackData;
+import groovebox.adapter.NoteDataBytes;
 
 public class Beat {
 
 	private final List<FourBarPhrase> phrases;
-	private final int resolution = 4; // four tick positions per note
 	private int loopCount = -1; // Sequencer.LOOP_CONTINUOUSLY
 	private float tempoInBPM = 120.0f;
 
@@ -16,17 +14,9 @@ public class Beat {
 		phrases = List.of(new FourBarPhrase());
 	}
 
-	public TrackData createTrackData() {
-		return new TrackData(
-				resolution,
-				noteDataTable(),
-				loopCount,
-				tempoInBPM
-		);
-	}
-
 	public int getResolution() {
-		return resolution;
+		// four tick positions per note
+		return 4;
 	}
 
 	public float getTempoInBPM() {
@@ -62,7 +52,7 @@ public class Beat {
 	}
 
 	public void defineTick(Instrument instrument, int noteIndex, int tickIndex) {
-		QuarterNote quarterNote = phrases.get(0).getQuarterNote(noteIndex);
+		QuarterNote quarterNote = phrases.getFirst().getQuarterNote(noteIndex);
 		quarterNote.setTick(new Tick(instrument, 120), tickIndex);
 	}
 

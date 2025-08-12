@@ -1,4 +1,4 @@
-package groovebox.services;
+package groovebox.adapter;
 
 public record NoteDataBytes(int firstDataByte, int secondDataByte) {
 	public static NoteDataBytes empty() {

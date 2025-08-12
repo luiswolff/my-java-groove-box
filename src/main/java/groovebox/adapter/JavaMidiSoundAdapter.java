@@ -1,4 +1,4 @@
-package groovebox.services;
+package groovebox.adapter;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiEvent;
@@ -9,11 +9,11 @@ import javax.sound.midi.Sequencer;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Track;
 
-public class SoundService implements AutoCloseable {
+public class JavaMidiSoundAdapter implements AutoCloseable {
 	private final Sequencer sequencer;
 	private float bpm;
 
-	public SoundService(Runnable finishCallback) {
+	public JavaMidiSoundAdapter(Runnable finishCallback) {
 		try {
 			sequencer = MidiSystem.getSequencer();
 			if (finishCallback != null) {

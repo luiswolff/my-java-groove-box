@@ -2,8 +2,8 @@ package groovebox.ui;
 
 import java.util.List;
 
-import groovebox.model.Instrument;
-import groovebox.model.Tick;
+import groovebox.service.Instrument;
+import groovebox.service.Tick;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.control.CheckBox;

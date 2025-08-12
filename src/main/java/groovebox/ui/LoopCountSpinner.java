@@ -1,6 +1,6 @@
 package groovebox.ui;
 
-import groovebox.model.Beat;
+import groovebox.service.Beat;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Spinner;

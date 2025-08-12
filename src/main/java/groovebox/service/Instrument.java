@@ -1,4 +1,4 @@
-package groovebox.model;
+package groovebox.service;
 
 /*
  * Instrument Key Map based on https://musescore.org/sites/musescore.org/files/General%20MIDI%20Standard%20Percussion%20Set%20Key%20Map.pdf

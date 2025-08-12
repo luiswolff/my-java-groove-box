@@ -3,14 +3,13 @@ package groovebox;
 import java.util.Collections;
 import java.util.Scanner;
 
-import groovebox.model.SampleBeatFactory;
-import groovebox.services.SoundService;
+import groovebox.service.SampleBeatFactory;
+import groovebox.service.SoundService;
 
 public class ConsoleApp {
 	public static void main(String[] args) {
-		//noinspection resource
-		SoundService soundService = new SoundService(null);
-		soundService.defineTrack(SampleBeatFactory.REGGAETON.createBeat().createTrackData());
+		SoundService soundService = new SoundService();
+		soundService.defineTrack(SampleBeatFactory.REGGAETON.createBeat());
 
 		System.out.println("Press any key to start");
 		new Scanner(System.in).nextLine();

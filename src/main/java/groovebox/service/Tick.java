@@ -1,4 +1,4 @@
-package groovebox.model;
+package groovebox.service;
 
 import java.util.Objects;
 

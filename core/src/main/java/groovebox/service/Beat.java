@@ -2,8 +2,6 @@ package groovebox.service;
 
 import java.util.List;
 
-import groovebox.adapter.NoteDataBytes;
-
 public class Beat {
 
 	private final List<FourBarPhrase> phrases;
@@ -39,21 +37,17 @@ public class Beat {
 		return loopCount < 0;
 	}
 
-	NoteDataBytes[][] noteDataTable() {
-		return phrases.stream()
-				.map(FourBarPhrase::getQuarterNotes)
-				.flatMap(List::stream)
-				.flatMap(QuarterNote::getNoteDataBytesStream)
-				.toArray(NoteDataBytes[][]::new);
-	}
-
 	public List<FourBarPhrase> getPhrases() {
 		return phrases;
 	}
 
-	public void defineTick(Instrument instrument, int noteIndex, int tickIndex) {
-		QuarterNote quarterNote = phrases.getFirst().getQuarterNote(noteIndex);
-		quarterNote.setTick(new Tick(instrument, 120), tickIndex);
+	void defineTick(Instrument instrument, int noteIndex, int tickIndex) {
+		FourBarPhrase fourBarPhrase = phrases.getFirst();
+		List<QuarterNote> quarterNotes = fourBarPhrase.getQuarterNotes();
+		QuarterNote quarterNote = quarterNotes.get(noteIndex);
+		List<List<Tick>> tickTable = quarterNote.getTicks();
+		List<Tick> ticks = tickTable.get(tickIndex);
+		ticks.add(new Tick(instrument, 120));
 	}
 
 }

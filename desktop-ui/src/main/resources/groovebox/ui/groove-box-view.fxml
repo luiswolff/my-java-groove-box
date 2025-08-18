@@ -11,8 +11,8 @@
 	</padding>
 
 	<HBox spacing="20.0">
-		<PlayStopButton fx:id="playStopButton" onAction="#onStartStopButtonClicked" />
-		<SampleBeatMenu fx:id="sampleBeatMenu" mnemonicParsing="false" text="clear" onAction="#onSampleBeatChanged" />
+		<PlayStopButton fx:id="playStopButton" onAction="#onStartStopButtonClicked"/>
+		<SampleBeatMenu fx:id="sampleBeatMenu" mnemonicParsing="false" onAction="#onSampleBeatChanged" text="clear"/>
 		<HBox>
 			<Label text="BPM: "/>
 			<TempoSpinner fx:id="tempoSpinner" editable="true" prefWidth="64.0"/>
@@ -26,7 +26,17 @@
 			<LoopCountSpinner fx:id="loopCountSpinner" disable="${infinityLoopCheckBox.selected}" editable="true" prefWidth="64.0"/>
 		</HBox>
 	</HBox>
-	<ScrollPane prefViewportHeight="300" prefWidth="600">
-		<InstrumentGridPane fx:id="instrumentGridPane"/>
-	</ScrollPane>
+	<VBox>
+		<ScrollPane prefViewportHeight="300" prefWidth="600">
+			<InstrumentGridPane fx:id="instrumentGridPane"/>
+		</ScrollPane>
+		<StackPane prefHeight="44.0" prefWidth="600">
+			<Pagination StackPane.alignment="CENTER" pageCount="5"/>
+			<SplitMenuButton text="add" StackPane.alignment="CENTER_RIGHT">
+				<items>
+					<MenuItem text="delete"/>
+				</items>
+			</SplitMenuButton>
+		</StackPane>
+	</VBox>
 </VBox>

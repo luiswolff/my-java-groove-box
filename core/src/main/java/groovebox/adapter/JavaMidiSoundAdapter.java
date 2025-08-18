@@ -3,7 +3,6 @@ package groovebox.adapter;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
-import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
 
 public class JavaMidiSoundAdapter implements AutoCloseable {
@@ -28,33 +27,14 @@ public class JavaMidiSoundAdapter implements AutoCloseable {
 
 	public void defineTrack(TrackData trackData) {
 		try {
-			Sequence sequence = createSequence(trackData);
-			applyTrackData(TrackBuilder.createFrom(sequence), trackData.noteDataTable());
-			applySequence(sequence, trackData);
+			long lastTickPosition = sequencer.getTickPosition();
+			sequencer.setSequence(SequenceFactory.create(trackData));
+			sequencer.setLoopCount(trackData.loopCount());
+			sequencer.setTickPosition(Math.min(lastTickPosition, trackData.noteDataTable().length - 1));
+			sequencer.setTempoInBPM(bpm = trackData.tempoInBPM());
 		} catch (InvalidMidiDataException e) {
 			throw new IllegalStateException("could not create Track", e);
 		}
-	}
-
-	private Sequence createSequence(TrackData trackData) throws InvalidMidiDataException {
-		return new Sequence(Sequence.PPQ, trackData.resolution());
-	}
-
-	private void applyTrackData(TrackBuilder trackBuilder, NoteDataBytes[][] noteDataBytesTable) throws InvalidMidiDataException {
-		for (int i = 0; i < noteDataBytesTable.length; i++) {
-			for (NoteDataBytes noteDataBytes : noteDataBytesTable[i]) {
-				trackBuilder.addNote(noteDataBytes, i);
-			}
-		}
-		trackBuilder.finish(noteDataBytesTable.length);
-	}
-
-	private void applySequence(Sequence sequence, TrackData trackData) throws InvalidMidiDataException {
-		long lastPosition = sequencer.getTickPosition();
-		sequencer.setSequence(sequence);
-		sequencer.setLoopCount(trackData.loopCount());
-		sequencer.setTickPosition(Math.min(lastPosition, trackData.noteDataTable().length - 1));
-		sequencer.setTempoInBPM(bpm = trackData.tempoInBPM());
 	}
 
 	public void start() {

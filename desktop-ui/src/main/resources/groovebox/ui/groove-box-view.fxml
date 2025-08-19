@@ -31,10 +31,10 @@
 			<InstrumentGridPane fx:id="instrumentGridPane"/>
 		</ScrollPane>
 		<StackPane prefHeight="44.0" prefWidth="600">
-			<Pagination StackPane.alignment="CENTER" pageCount="5"/>
-			<SplitMenuButton text="add" StackPane.alignment="CENTER_RIGHT">
+			<PhrasePagination fx:id="phrasePagination" StackPane.alignment="CENTER" pageCount="5"/>
+			<SplitMenuButton text="add" StackPane.alignment="CENTER_RIGHT" onAction="#onAddPhraseButtonClicked">
 				<items>
-					<MenuItem text="delete"/>
+					<MenuItem text="delete" onAction="#onRemovePhraseButtonClicked"/>
 				</items>
 			</SplitMenuButton>
 		</StackPane>

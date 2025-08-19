@@ -1,6 +1,7 @@
 package groovebox.ui;
 
 import java.util.Arrays;
+import java.util.List;
 
 import groovebox.service.Beat;
 import groovebox.service.FourBarPhrase;
@@ -20,20 +21,38 @@ class GrooveBoxModel {
 	private final ObjectProperty<Node> playButtonGraphic = new SimpleObjectProperty<>(Icons.play());
 	private final ObjectProperty<Beat> beat = new SimpleObjectProperty<>();
 	private final ObjectProperty<FourBarPhrase> phrase = new SimpleObjectProperty<>();
+	private final ListProperty<FourBarPhrase> phrases = new SimpleListProperty<>(FXCollections.observableArrayList());
+	private final IntegerProperty phraseIndex = new SimpleIntegerProperty();
 	private final BooleanProperty infinity = new SimpleBooleanProperty(false);
 	private final ListProperty<SampleBeatFactory> sampleBeatFactories = new SimpleListProperty<>(FXCollections.observableArrayList());
 	private final IntegerProperty highlightedTick = new SimpleIntegerProperty(-1);
 
 	GrooveBoxModel() {
-		beat.addListener((observable, oldValue, newValue) -> phrase.setValue(getFirstPhrase()));
-		beat.addListener((observable, oldValue, newValue) -> infinity.setValue(beat.get().isInfinityLoopCount()));
+		phraseIndex.addListener((observable, oldValue, nuewValue) -> onPhraseIndexChanged());
+		beat.addListener((observable, oldValue, newValue) -> onBeatChanged());
 
 		setBeat(new Beat());
 		Arrays.stream(SampleBeatFactory.values()).forEach(this::addSampleBeatFactory);
 	}
 
-	private FourBarPhrase getFirstPhrase() {
-		return beat.get().getPhrases().getFirst();
+	private void onPhraseIndexChanged() {
+		int index = phraseIndex.get();
+		phrase.set(phrases.get(index));
+	}
+
+	private void onBeatChanged() {
+		phraseIndex.setValue(0);
+		phrases.setValue(FXCollections.observableList(getFourBarPhrasesFromBeat()));
+		phrase.setValue(phrases.get(phraseIndex.get()));
+		infinity.setValue(beat.get().isInfinityLoopCount());
+	}
+
+	private List<FourBarPhrase> getFourBarPhrasesFromBeat() {
+		List<FourBarPhrase> phrases = beat.get().getPhrases();
+		if (phrases.isEmpty()) {
+			phrases.add(new FourBarPhrase());
+		}
+		return phrases;
 	}
 
 	ObjectProperty<Node> playButtonGraphicProperty() {
@@ -46,6 +65,14 @@ class GrooveBoxModel {
 
 	ObjectProperty<FourBarPhrase> phraseProperty() {
 		return phrase;
+	}
+
+	ListProperty<FourBarPhrase> phrasesProperty() {
+		return phrases;
+	}
+
+	IntegerProperty phraseIndexProperty() {
+		return phraseIndex;
 	}
 
 	BooleanProperty infinityProperty() {
@@ -79,5 +106,21 @@ class GrooveBoxModel {
 
 	void setHighlightedTick(int tick) {
 		highlightedTick.setValue(tick);
+	}
+
+	void addNewPhrase() {
+		phrases.add(new FourBarPhrase());
+		phraseIndex.set(phrases.size() - 1);
+	}
+
+	void removeCurrentPhrase() {
+		phrases.remove(phraseIndex.get());
+		if (phrases.isEmpty()) {
+			FourBarPhrase element = new FourBarPhrase();
+			phrases.add(element);
+			phrase.setValue(element);
+		} else {
+			phraseIndex.subtract(1);
+		}
 	}
 }

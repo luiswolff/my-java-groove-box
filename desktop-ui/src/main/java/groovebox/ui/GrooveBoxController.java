@@ -28,6 +28,9 @@ public class GrooveBoxController {
 	@FXML
 	private SampleBeatMenu sampleBeatMenu;
 
+	@FXML
+	private PhrasePagination phrasePagination;
+
 	private final GrooveBoxModel grooveBoxModel = new GrooveBoxModel();
 
 	private final AnimationTimer timer = new AnimationTimer() {
@@ -53,6 +56,7 @@ public class GrooveBoxController {
 		infinityLoopCheckBox.apply(grooveBoxModel);
 		sampleBeatMenu.apply(grooveBoxModel);
 		playStopButton.apply(grooveBoxModel);
+		phrasePagination.apply(grooveBoxModel);
 	}
 
 	private void handleModelChanged() {
@@ -91,6 +95,18 @@ public class GrooveBoxController {
 			beatSupplier = (Supplier<Beat>) ((SampleBeatMenu.SampleBeatMenuItem) source).getUserData();
 		}
 		return beatSupplier.get();
+	}
+
+	@FXML
+	protected void onAddPhraseButtonClicked() {
+		grooveBoxModel.addNewPhrase();
+		handleModelChanged();
+	}
+
+	@FXML
+	protected void onRemovePhraseButtonClicked() {
+		grooveBoxModel.removeCurrentPhrase();
+		handleModelChanged();
 	}
 
 	public void close() {

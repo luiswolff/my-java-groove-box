@@ -1,16 +1,13 @@
 package groovebox.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Beat {
 
-	private final List<FourBarPhrase> phrases;
+	private final List<FourBarPhrase> phrases = new ArrayList<>();
 	private int loopCount = -1; // Sequencer.LOOP_CONTINUOUSLY
 	private float tempoInBPM = 120.0f;
-
-	public Beat() {
-		phrases = List.of(new FourBarPhrase());
-	}
 
 	public int getResolution() {
 		// four tick positions per note
@@ -42,6 +39,9 @@ public class Beat {
 	}
 
 	void defineTick(Instrument instrument, int noteIndex, int tickIndex) {
+		if (phrases.isEmpty()) {
+			phrases.add(new FourBarPhrase());
+		}
 		FourBarPhrase fourBarPhrase = phrases.getFirst();
 		List<QuarterNote> quarterNotes = fourBarPhrase.getQuarterNotes();
 		QuarterNote quarterNote = quarterNotes.get(noteIndex);

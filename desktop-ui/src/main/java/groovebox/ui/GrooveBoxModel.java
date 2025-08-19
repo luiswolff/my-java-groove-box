@@ -6,6 +6,7 @@ import java.util.List;
 import groovebox.service.Beat;
 import groovebox.service.FourBarPhrase;
 import groovebox.service.SampleBeatFactory;
+import groovebox.service.TickPosition;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
@@ -104,8 +105,12 @@ class GrooveBoxModel {
 		sampleBeatFactories.add(sampleBeatFactory);
 	}
 
-	void setHighlightedTick(int tick) {
-		highlightedTick.setValue(tick);
+	void setHighlightedTick(TickPosition tickPosition) {
+		if (phraseIndex.get() == tickPosition.currentPhrase()) {
+			highlightedTick.setValue(tickPosition.phrasePosition());
+		} else {
+			highlightedTick.setValue(-1);
+		}
 	}
 
 	void addNewPhrase() {

@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import groovebox.service.Beat;
 import groovebox.service.SoundService;
+import groovebox.service.TickPosition;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -36,7 +37,7 @@ public class GrooveBoxController {
 	private final AnimationTimer timer = new AnimationTimer() {
 		@Override
 		public void handle(long now) {
-			Integer tickPosition = soundService.getTickPosition();
+			TickPosition tickPosition = soundService.getTickPosition(grooveBoxModel.phrasesProperty().get());
 			if (tickPosition != null) {
 				grooveBoxModel.setHighlightedTick(tickPosition);
 			} else {

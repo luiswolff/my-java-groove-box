@@ -1,5 +1,7 @@
 package groovebox.service;
 
+import java.util.List;
+
 import groovebox.adapter.JavaMidiSoundAdapter;
 import groovebox.adapter.TrackData;
 
@@ -26,8 +28,11 @@ public class SoundService {
 		return running;
 	}
 
-	public Integer getTickPosition() {
-		return running ? (int) soundAdapter.getTickPosition() : null;
+	public TickPosition getTickPosition(List<FourBarPhrase> fourBarPhrases) {
+		if (!running) {
+			return null;
+		}
+		return TickPosition.from(fourBarPhrases, (int) soundAdapter.getTickPosition());
 	}
 
 	public void close() {

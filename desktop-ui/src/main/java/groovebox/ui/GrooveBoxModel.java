@@ -16,10 +16,9 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
-import javafx.scene.Node;
 
 class GrooveBoxModel {
-	private final ObjectProperty<Node> playButtonGraphic = new SimpleObjectProperty<>(Icons.play());
+	private final BooleanProperty trackIsPlaying = new SimpleBooleanProperty(false);
 	private final ObjectProperty<Beat> beat = new SimpleObjectProperty<>();
 	private final ObjectProperty<Phrase> phrase = new SimpleObjectProperty<>();
 	private final ListProperty<Phrase> phrases = new SimpleListProperty<>(FXCollections.observableArrayList());
@@ -56,8 +55,8 @@ class GrooveBoxModel {
 		return phrases;
 	}
 
-	ObjectProperty<Node> playButtonGraphicProperty() {
-		return playButtonGraphic;
+	BooleanProperty trackIsPlayingProperty() {
+		return trackIsPlaying;
 	}
 
 	ObjectProperty<Beat> beatProperty() {
@@ -89,11 +88,11 @@ class GrooveBoxModel {
 	}
 
 	void trackIsPlaying() {
-		playButtonGraphic.setValue(Icons.stop());
+		trackIsPlaying.setValue(true);
 	}
 
 	void trackIsPaused() {
-		playButtonGraphic.setValue(Icons.play());
+		trackIsPlaying.setValue(false);
 		highlightedTick.setValue(-1);
 	}
 

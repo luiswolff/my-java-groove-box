@@ -32,5 +32,6 @@ public class TempoSpinner extends Spinner<Integer> {
 	void apply(GrooveBoxModel model, Runnable changeCallback) {
 		this.changeCallback = changeCallback;
 		beatProperty().bind(model.beatProperty());
+		disableProperty().bind(model.trackIsPlayingProperty());
 	}
 }

@@ -3,7 +3,7 @@ package groovebox.service;
 import java.util.List;
 
 public record TickPosition(int currentPhrase, int phrasePosition) {
-	static TickPosition from(List<FourBarPhrase> phrases, int tickPosition) {
+	static TickPosition from(List<Phrase> phrases, int tickPosition) {
 		int ticksPerPhrase = calculateTicksPerPhrase(phrases);
 		int currentPhrase = tickPosition / ticksPerPhrase;
 		int phrasePosition = tickPosition % ticksPerPhrase;
@@ -14,11 +14,11 @@ public record TickPosition(int currentPhrase, int phrasePosition) {
 	 * This method assumes that all phrases have the same amound of note
 	 * and all notes have the same amount of ticks.
 	 */
-	private static int calculateTicksPerPhrase(List<FourBarPhrase> phrases) {
+	private static int calculateTicksPerPhrase(List<Phrase> phrases) {
 		int countTicks = phrases.stream()
-				.map(FourBarPhrase::getQuarterNotes)
+				.map(Phrase::getNotes)
 				.flatMap(List::stream)
-				.map(QuarterNote::getTicks)
+				.map(Note::getTicks)
 				.mapToInt(List::size).sum();
 		return countTicks / phrases.size();
 	}

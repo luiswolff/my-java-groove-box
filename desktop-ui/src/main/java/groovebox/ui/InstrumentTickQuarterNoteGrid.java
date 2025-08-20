@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import groovebox.service.Instrument;
-import groovebox.service.QuarterNote;
+import groovebox.service.Note;
 import javafx.beans.property.ObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -15,7 +15,7 @@ class InstrumentTickQuarterNoteGrid {
 	private final List<InstrumentTickColumn> tickColumns;
 	List<ObjectProperty<EventHandler<ActionEvent>>> onActions = new LinkedList<>();
 
-	InstrumentTickQuarterNoteGrid(QuarterNote note) {
+	InstrumentTickQuarterNoteGrid(Note note) {
 		List<InstrumentTickColumn> tickColumns = new ArrayList<>(note.getTicks().size());
 		for (int i = 0; i < note.getTicks().size(); i++) {
 			tickColumns.add(new InstrumentTickColumn(note.getTicks().get(i), i == 0));

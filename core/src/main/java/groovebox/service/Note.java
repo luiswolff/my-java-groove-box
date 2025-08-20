@@ -3,7 +3,7 @@ package groovebox.service;
 import java.util.LinkedList;
 import java.util.List;
 
-public class QuarterNote {
+public class Note {
 	private final List<List<Tick>> ticks = List.of(
 			new LinkedList<>(),
 			new LinkedList<>(),

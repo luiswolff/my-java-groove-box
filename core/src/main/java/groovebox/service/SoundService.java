@@ -28,11 +28,11 @@ public class SoundService {
 		return running;
 	}
 
-	public TickPosition getTickPosition(List<FourBarPhrase> fourBarPhrases) {
+	public TickPosition getTickPosition(List<Phrase> phrases) {
 		if (!running) {
 			return null;
 		}
-		return TickPosition.from(fourBarPhrases, (int) soundAdapter.getTickPosition());
+		return TickPosition.from(phrases, (int) soundAdapter.getTickPosition());
 	}
 
 	public void close() {

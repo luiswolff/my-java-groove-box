@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Beat {
 
-	private final List<FourBarPhrase> phrases = new ArrayList<>();
+	private final List<Phrase> phrases = new ArrayList<>();
 	private int loopCount = -1; // Sequencer.LOOP_CONTINUOUSLY
 	private float tempoInBPM = 120.0f;
 
@@ -34,18 +34,18 @@ public class Beat {
 		return loopCount < 0;
 	}
 
-	public List<FourBarPhrase> getPhrases() {
+	public List<Phrase> getPhrases() {
 		return phrases;
 	}
 
 	void defineTick(Instrument instrument, int noteIndex, int tickIndex) {
 		if (phrases.isEmpty()) {
-			phrases.add(new FourBarPhrase());
+			phrases.add(new Phrase());
 		}
-		FourBarPhrase fourBarPhrase = phrases.getFirst();
-		List<QuarterNote> quarterNotes = fourBarPhrase.getQuarterNotes();
-		QuarterNote quarterNote = quarterNotes.get(noteIndex);
-		List<List<Tick>> tickTable = quarterNote.getTicks();
+		Phrase phrase = phrases.getFirst();
+		List<Note> notes = phrase.getNotes();
+		Note note = notes.get(noteIndex);
+		List<List<Tick>> tickTable = note.getTicks();
 		List<Tick> ticks = tickTable.get(tickIndex);
 		ticks.add(new Tick(instrument, 120));
 	}

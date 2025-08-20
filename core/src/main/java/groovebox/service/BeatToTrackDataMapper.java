@@ -16,11 +16,11 @@ class BeatToTrackDataMapper {
 		);
 	}
 
-	private static NoteDataBytes[][] noteDataTable(List<FourBarPhrase> phrases) {
+	private static NoteDataBytes[][] noteDataTable(List<Phrase> phrases) {
 		return phrases.stream()
-				.map(FourBarPhrase::getQuarterNotes)
+				.map(Phrase::getNotes)
 				.flatMap(List::stream)
-				.map(QuarterNote::getTicks)
+				.map(Note::getTicks)
 				.flatMap(BeatToTrackDataMapper::getNoteDataBytesStream)
 				.toArray(NoteDataBytes[][]::new);
 	}

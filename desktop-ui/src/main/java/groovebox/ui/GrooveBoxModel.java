@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import groovebox.service.Beat;
-import groovebox.service.FourBarPhrase;
+import groovebox.service.Phrase;
 import groovebox.service.SampleBeatFactory;
 import groovebox.service.TickPosition;
 import javafx.beans.property.BooleanProperty;
@@ -21,8 +21,8 @@ import javafx.scene.Node;
 class GrooveBoxModel {
 	private final ObjectProperty<Node> playButtonGraphic = new SimpleObjectProperty<>(Icons.play());
 	private final ObjectProperty<Beat> beat = new SimpleObjectProperty<>();
-	private final ObjectProperty<FourBarPhrase> phrase = new SimpleObjectProperty<>();
-	private final ListProperty<FourBarPhrase> phrases = new SimpleListProperty<>(FXCollections.observableArrayList());
+	private final ObjectProperty<Phrase> phrase = new SimpleObjectProperty<>();
+	private final ListProperty<Phrase> phrases = new SimpleListProperty<>(FXCollections.observableArrayList());
 	private final IntegerProperty phraseIndex = new SimpleIntegerProperty();
 	private final BooleanProperty infinity = new SimpleBooleanProperty(false);
 	private final ListProperty<SampleBeatFactory> sampleBeatFactories = new SimpleListProperty<>(FXCollections.observableArrayList());
@@ -48,10 +48,10 @@ class GrooveBoxModel {
 		infinity.setValue(beat.get().isInfinityLoopCount());
 	}
 
-	private List<FourBarPhrase> getFourBarPhrasesFromBeat() {
-		List<FourBarPhrase> phrases = beat.get().getPhrases();
+	private List<Phrase> getFourBarPhrasesFromBeat() {
+		List<Phrase> phrases = beat.get().getPhrases();
 		if (phrases.isEmpty()) {
-			phrases.add(new FourBarPhrase());
+			phrases.add(new Phrase());
 		}
 		return phrases;
 	}
@@ -64,11 +64,11 @@ class GrooveBoxModel {
 		return beat;
 	}
 
-	ObjectProperty<FourBarPhrase> phraseProperty() {
+	ObjectProperty<Phrase> phraseProperty() {
 		return phrase;
 	}
 
-	ListProperty<FourBarPhrase> phrasesProperty() {
+	ListProperty<Phrase> phrasesProperty() {
 		return phrases;
 	}
 
@@ -114,14 +114,14 @@ class GrooveBoxModel {
 	}
 
 	void addNewPhrase() {
-		phrases.add(new FourBarPhrase());
+		phrases.add(new Phrase());
 		phraseIndex.set(phrases.size() - 1);
 	}
 
 	void removeCurrentPhrase() {
 		phrases.remove(phraseIndex.get());
 		if (phrases.isEmpty()) {
-			FourBarPhrase element = new FourBarPhrase();
+			Phrase element = new Phrase();
 			phrases.add(element);
 			phrase.setValue(element);
 		} else {

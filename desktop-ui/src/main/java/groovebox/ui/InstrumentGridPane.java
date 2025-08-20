@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import groovebox.service.FourBarPhrase;
+import groovebox.service.Phrase;
 import groovebox.service.Instrument;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
@@ -19,7 +19,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 
 public class InstrumentGridPane extends GridPane {
-	private final ObjectProperty<FourBarPhrase> phrase = new SimpleObjectProperty<>();
+	private final ObjectProperty<Phrase> phrase = new SimpleObjectProperty<>();
 	private final IntegerProperty highlightedTick =  new SimpleIntegerProperty();
 
 	private Runnable changeCallback = null;
@@ -29,7 +29,7 @@ public class InstrumentGridPane extends GridPane {
 		highlightedTickProperty().addListener((observable, oldValue, newValue) -> highlightTick());
 	}
 
-	ObjectProperty<FourBarPhrase> phraseProperty() {
+	ObjectProperty<Phrase> phraseProperty() {
 		return phrase;
 	}
 
@@ -89,7 +89,7 @@ public class InstrumentGridPane extends GridPane {
 	}
 
 	private List<InstrumentTickQuarterNoteGrid> createSubGrids() {
-		return phrase.get().getQuarterNotes().stream()
+		return phrase.get().getNotes().stream()
 				.map(InstrumentTickQuarterNoteGrid::new)
 				.toList();
 	}

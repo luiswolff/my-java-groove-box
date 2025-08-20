@@ -32,7 +32,7 @@ public class GrooveBoxController {
 	@FXML
 	private PhrasePagination phrasePagination;
 
-	private final GrooveBoxModel grooveBoxModel = new GrooveBoxModel();
+	private final GrooveBoxModel grooveBoxModel = new GrooveBoxModel(this::handleModelChanged);
 
 	private final AnimationTimer timer = new AnimationTimer() {
 		@Override
@@ -51,9 +51,11 @@ public class GrooveBoxController {
 
 	@FXML
 	public void initialize() {
+		grooveBoxModel.setBeat(new Beat());
+
 		instrumentGridPane.apply(grooveBoxModel, this::handleModelChanged);
-		loopCountSpinner.apply(grooveBoxModel, this::handleModelChanged);
-		tempoSpinner.apply(grooveBoxModel, this::handleModelChanged);
+		loopCountSpinner.apply(grooveBoxModel);
+		tempoSpinner.apply(grooveBoxModel);
 		infinityLoopCheckBox.apply(grooveBoxModel);
 		sampleBeatMenu.apply(grooveBoxModel);
 		playStopButton.apply(grooveBoxModel);

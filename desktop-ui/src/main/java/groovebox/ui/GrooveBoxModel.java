@@ -23,16 +23,43 @@ class GrooveBoxModel {
 	private final ObjectProperty<Phrase> phrase = new SimpleObjectProperty<>();
 	private final ListProperty<Phrase> phrases = new SimpleListProperty<>(FXCollections.observableArrayList());
 	private final IntegerProperty phraseIndex = new SimpleIntegerProperty();
+	private final ObjectProperty<Integer> tempo = new SimpleObjectProperty<>();
 	private final BooleanProperty infinity = new SimpleBooleanProperty(false);
+	private final ObjectProperty<Integer> loopCount = new SimpleObjectProperty<>();
 	private final ListProperty<SampleBeatFactory> sampleBeatFactories = new SimpleListProperty<>(FXCollections.observableArrayList());
 	private final IntegerProperty highlightedTick = new SimpleIntegerProperty(-1);
+	private final Runnable modelChangedCallback;
 
-	GrooveBoxModel() {
+	GrooveBoxModel(Runnable modelChangedCallback) {
+		this.modelChangedCallback = modelChangedCallback;
 		phraseIndex.addListener((observable, oldValue, nuewValue) -> onPhraseIndexChanged());
 		beat.addListener((observable, oldValue, newValue) -> onBeatChanged());
+		tempo.addListener((observable, oldValue, newValue) -> tempoChanged());
+		loopCount.addListener((observable, oldValue, newValue) -> loopCountChanged());
+		infinity.addListener((observable, oldValue, newValue) -> infinityChanged());
 
-		setBeat(new Beat());
 		Arrays.stream(SampleBeatFactory.values()).forEach(this::addSampleBeatFactory);
+	}
+
+	private void infinityChanged() {
+		if (infinity.get()) {
+			beat.get().setLoopCount(-1);
+		} else {
+			beat.get().setLoopCount(loopCount.get() - 1);
+		}
+		modelChangedCallback.run();
+	}
+
+	private void loopCountChanged() {
+		if (!infinity.get()) {
+			beat.get().setLoopCount(loopCount.get() - 1);
+			modelChangedCallback.run();
+		}
+	}
+
+	private void tempoChanged() {
+		beat.get().setTempoInBPM(tempo.get());
+		modelChangedCallback.run();
 	}
 
 	private void onPhraseIndexChanged() {
@@ -44,7 +71,9 @@ class GrooveBoxModel {
 		phraseIndex.setValue(0);
 		phrases.setValue(FXCollections.observableList(getFourBarPhrasesFromBeat()));
 		phrase.setValue(phrases.get(phraseIndex.get()));
+		tempo.setValue((int) beat.get().getTempoInBPM());
 		infinity.setValue(beat.get().isInfinityLoopCount());
+		loopCount.setValue(Math.max(1, beat.get().getLoopCount() + 1));
 	}
 
 	private List<Phrase> getFourBarPhrasesFromBeat() {
@@ -75,8 +104,16 @@ class GrooveBoxModel {
 		return phraseIndex;
 	}
 
+	ObjectProperty<Integer> tempoProperty() {
+		return tempo;
+	}
+
 	BooleanProperty infinityProperty() {
 		return infinity;
+	}
+
+	ObjectProperty<Integer> loopCountProperty() {
+		return loopCount;
 	}
 
 	ListProperty<SampleBeatFactory> sampleBeatFactoriesProperty() {

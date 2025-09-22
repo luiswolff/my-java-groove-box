@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import groovebox.service.Phrase;
 import groovebox.service.Instrument;
+import groovebox.service.Phrase;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -22,8 +22,6 @@ public class InstrumentGridPane extends GridPane {
 	private final ObjectProperty<Phrase> phrase = new SimpleObjectProperty<>();
 	private final IntegerProperty highlightedTick =  new SimpleIntegerProperty();
 
-	private Runnable changeCallback = null;
-
 	public InstrumentGridPane() {
 		phrase.addListener((observable, oldValue, newValue) -> defineBeat());
 		highlightedTickProperty().addListener((observable, oldValue, newValue) -> highlightTick());
@@ -37,11 +35,11 @@ public class InstrumentGridPane extends GridPane {
 		return highlightedTick;
 	}
 
-	void apply(GrooveBoxModel model, Runnable changeCallback) {
+	void apply(GrooveBoxModel model) {
 		phraseProperty().bind(model.phraseProperty());
 		highlightedTickProperty().bind(model.highlightedTickProperty());
-		this.changeCallback = changeCallback;
 	}
+
 	private final Instrument[] instruments = Instrument.values();
 
 	private InstrumentTickBackgroundPane[][] cellTable;
@@ -58,7 +56,6 @@ public class InstrumentGridPane extends GridPane {
 			List<InstrumentTickCellNodes> childrenGrid = createTickColumns(quarterNoteGrids, instrument, getPosition(row));
 			for (int col = 0; col < childrenGrid.size(); col++) {
 				InstrumentTickCellNodes node = childrenGrid.get(col);
-				addListeners(node.foreground());
 				addTickColumnCell(row, col + 1, node.foreground(), node.background());
 				indexBackground(node.background(), row, col, childrenGrid.size());
 			}
@@ -116,15 +113,6 @@ public class InstrumentGridPane extends GridPane {
 			childrenGrid.addAll(quarterNoteGrid.createRowCells(instrument, position));
 		}
 		return new ArrayList<>(childrenGrid);
-	}
-
-	private void addListeners(InstrumentTickCheckBox checkBox) {
-		checkBox.selectedProperty().addListener((obs, oldVal, newVal) -> modelChanged());
-		checkBox.velocityProperty().addListener((obs, oldVal, newVal) -> modelChanged());
-	}
-
-	private void modelChanged() {
-		changeCallback.run();
 	}
 
 	private void highlightTick() {

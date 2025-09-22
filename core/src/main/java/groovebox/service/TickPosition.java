@@ -3,7 +3,11 @@ package groovebox.service;
 import java.util.List;
 
 public record TickPosition(int currentPhrase, int phrasePosition) {
+
 	static TickPosition from(List<Phrase> phrases, int tickPosition) {
+		if (phrases.isEmpty()) {
+			return new  TickPosition(0, tickPosition);
+		}
 		int ticksPerPhrase = calculateTicksPerPhrase(phrases);
 		int currentPhrase = tickPosition / ticksPerPhrase;
 		int phrasePosition = tickPosition % ticksPerPhrase;

@@ -5,12 +5,12 @@ import javax.sound.midi.MidiEvent;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Track;
 
-class MidiEventWrapper {
+class JavaMidiEvent {
 	private final Track track;
 	private final MidiEvent eventOn;
 	private final ShortMessage messageEventOn;
 	private boolean addedToTrack = false;
-	MidiEventWrapper(Track track, int type, int instrument, int velocity, long tickVal) throws InvalidMidiDataException {
+	JavaMidiEvent(Track track, int type, int instrument, int velocity, long tickVal) throws InvalidMidiDataException {
 		this.track = track;
 		messageEventOn = new ShortMessage();
 		messageEventOn.setMessage(type, 9, instrument, velocity);
@@ -42,12 +42,16 @@ class MidiEventWrapper {
 		return messageEventOn.getData2();
 	}
 
-	public void setVelocity(int velocity) throws InvalidMidiDataException {
-		messageEventOn.setMessage(
-				messageEventOn.getCommand(),
-				messageEventOn.getChannel(),
-				messageEventOn.getData1(),
-				velocity
-		);
+	public void setVelocity(int velocity) {
+		try {
+			messageEventOn.setMessage(
+					messageEventOn.getCommand(),
+					messageEventOn.getChannel(),
+					messageEventOn.getData1(),
+					velocity
+			);
+		} catch (InvalidMidiDataException e) {
+			throw new IllegalArgumentException(e);
+		}
 	}
 }

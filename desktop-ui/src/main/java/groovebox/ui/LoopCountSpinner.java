@@ -1,5 +1,6 @@
 package groovebox.ui;
 
+import groovebox.ui.model.GrooveBoxModel;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 

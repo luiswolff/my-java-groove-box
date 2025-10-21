@@ -1,25 +1,25 @@
 package groovebox.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 
 import groovebox.adapter.JavaMidiNote;
 import groovebox.adapter.JavaMidiSequence;
 
-public class Beat<T extends List<Phrase>> {
+public class Beat {
 	private final JavaMidiSequence sequence = new JavaMidiSequence();
-	private final T phrases;
+	private final List<PhraseImpl> phrases = new ArrayList<>();
 
-	public Beat(Supplier<T> phrasesSupplier) {
-		phrases = phrasesSupplier.get();
+	public Beat() {
 		addPhrase();
 	}
 
-	public T getPhrases() {
-		return phrases;
+	public List<Phrase> getPhrases() {
+		return Collections.unmodifiableList(phrases);
 	}
 
 	public void addPhrase() {
@@ -27,12 +27,11 @@ public class Beat<T extends List<Phrase>> {
 		updateTrackEnd();
 	}
 
-	@SuppressWarnings("unchecked")
 	public void removePhrase(int indexToBeRemoved) {
-		Phrase phraseToBeRemoved = phrases.remove(indexToBeRemoved);
-		((PhraseImpl)phraseToBeRemoved).removed();
+		PhraseImpl phraseToBeRemoved = phrases.remove(indexToBeRemoved);
+		phraseToBeRemoved.removed();
 		for (int i = indexToBeRemoved; i < phrases.size(); i++) {
-			PhraseImpl successorPhrase = (PhraseImpl) phrases.get(i);
+			PhraseImpl successorPhrase = phrases.get(i);
 			successorPhrase.setPhrasePos(i);
 		}
 		updateTrackEnd();

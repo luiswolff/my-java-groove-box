@@ -1,6 +1,7 @@
 package groovebox.adapter;
 
 import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MetaMessage;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Sequencer;
@@ -13,26 +14,18 @@ public class JavaMidiSoundAdapter implements AutoCloseable {
 		try {
 			sequencer = MidiSystem.getSequencer();
 			controlData = new JavaMidiControlData(sequencer);
-			sequencer.addMetaEventListener(meta -> {
-				if (meta.getType() == 47) {
-					controlData.setTickPosition(0L);
-				}
-			});
+			sequencer.addMetaEventListener(this::onMetaEvent);
 			sequencer.open();
 		} catch (MidiUnavailableException e) {
 			throw new IllegalStateException("could not initialize Sequencer", e);
 		}
 	}
 
-	public void start() {
-		// for some reason the tempo is always reset when changing loop count
-		controlData.resetTempoInBPM();
-		sequencer.start();
-	}
-
-	public void stop() {
-		sequencer.stop();
-		sequencer.setTickPosition(0);
+	private void onMetaEvent(MetaMessage meta) {
+		if (meta.getType() == 47) {
+			controlData.setTickPosition(0L);
+			controlData.resetTempoInBPM();
+		}
 	}
 
 	public void apply(JavaMidiSequence javaMidiSequence) {
@@ -45,10 +38,6 @@ public class JavaMidiSoundAdapter implements AutoCloseable {
 
 	public JavaMidiControlData getControlData() {
 		return controlData;
-	}
-
-	public boolean isRunning() {
-		return sequencer.isRunning();
 	}
 
 	@Override

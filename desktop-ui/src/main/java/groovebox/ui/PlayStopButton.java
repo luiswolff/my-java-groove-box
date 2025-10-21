@@ -1,5 +1,6 @@
 package groovebox.ui;
 
+import groovebox.ui.model.GrooveBoxModel;
 import javafx.scene.control.Button;
 
 public class PlayStopButton extends Button {

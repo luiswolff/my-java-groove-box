@@ -1,15 +1,15 @@
 package groovebox.ui;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import groovebox.service.Instrument;
-import groovebox.service.Phrase;
+import groovebox.ui.model.GrooveBoxModel;
+import groovebox.ui.model.ShownInstrumentNoteModel;
+import groovebox.ui.model.ShownInstrumentRowModel;
+import groovebox.ui.model.ShownInstrumentTickModel;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.control.Label;
@@ -19,16 +19,10 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 
 public class InstrumentGridPane extends GridPane {
-	private final ObjectProperty<Phrase> phrase = new SimpleObjectProperty<>();
 	private final IntegerProperty highlightedTick =  new SimpleIntegerProperty();
 
 	public InstrumentGridPane() {
-		phrase.addListener((observable, oldValue, newValue) -> defineBeat());
 		highlightedTickProperty().addListener((observable, oldValue, newValue) -> highlightTick());
-	}
-
-	ObjectProperty<Phrase> phraseProperty() {
-		return phrase;
 	}
 
 	IntegerProperty highlightedTickProperty() {
@@ -36,29 +30,39 @@ public class InstrumentGridPane extends GridPane {
 	}
 
 	void apply(GrooveBoxModel model) {
-		phraseProperty().bind(model.phraseProperty());
 		highlightedTickProperty().bind(model.highlightedTickProperty());
+		model.getShownPhraseModel().shownPhraseModelProperty().subscribe(this::onShownPhraseModelChanged);
 	}
 
 	private final Instrument[] instruments = Instrument.values();
 
 	private InstrumentTickBackgroundPane[][] cellTable;
 
-	private void defineBeat() {
+	private void onShownPhraseModelChanged(Map<Instrument, ShownInstrumentRowModel> phraseMap) {
 		clearGrid();
-		List<InstrumentTickQuarterNoteGrid> quarterNoteGrids = createSubGrids();
-		for (int row = 0; row < instruments.length; row++) {
+		int row = 0;
+		for (Instrument instrument : phraseMap.keySet()) {
 			getRowConstraints().add(new RowConstraints(30.0, 30.0, 30.0, Priority.SOMETIMES, VPos.CENTER, true));
-
-			Instrument instrument = instruments[row];
 			addLabelColumnCell(row, instrument);
 
-			List<InstrumentTickCellNodes> childrenGrid = createTickColumns(quarterNoteGrids, instrument, getPosition(row));
-			for (int col = 0; col < childrenGrid.size(); col++) {
-				InstrumentTickCellNodes node = childrenGrid.get(col);
-				addTickColumnCell(row, col + 1, node.foreground(), node.background());
-				indexBackground(node.background(), row, col, childrenGrid.size());
+			ShownInstrumentRowModel rowModel = phraseMap.get(instrument);
+			List<ShownInstrumentNoteModel> shownNotes = rowModel.getShownNotes();
+			for (int i = 0; i < shownNotes.size(); i++) {
+				ShownInstrumentNoteModel noteModel = shownNotes.get(i);
+				List<ShownInstrumentTickModel> shownInstrumentTicks = noteModel.getShownInstrumentTicks();
+				for (int j = 0; j < shownInstrumentTicks.size(); j++) {
+					int col = i * shownInstrumentTicks.size() + j;
+					ShownInstrumentTickModel tick = shownInstrumentTicks.get(j);
+					InstrumentTickCheckBox checkBox = new InstrumentTickCheckBox(tick);
+					InstrumentTickBackgroundPane backgroundPane = new InstrumentTickBackgroundPane(j == 0, checkBox.velocityProperty(), getPosition(row));
+
+					InstrumentTickCellNodes node = new InstrumentTickCellNodes(checkBox, backgroundPane);
+					addTickColumnCell(row, col + 1, node.foreground(), node.background());
+					indexBackground(node.background(), row, col, shownNotes.size() * shownInstrumentTicks.size());
+				}
 			}
+
+			row++;
 		}
 	}
 
@@ -85,12 +89,6 @@ public class InstrumentGridPane extends GridPane {
 		cellTable =  new InstrumentTickBackgroundPane[instruments.length][];
 	}
 
-	private List<InstrumentTickQuarterNoteGrid> createSubGrids() {
-		return phrase.get().getNotes().stream()
-				.map(InstrumentTickQuarterNoteGrid::new)
-				.toList();
-	}
-
 	private void addLabelColumnCell(int row, Instrument instrument) {
 		if (row == 0) {
 			getColumnConstraints().add(new ColumnConstraints(175.0, 175.0, 175.0, Priority.SOMETIMES, HPos.LEFT, true));
@@ -106,23 +104,16 @@ public class InstrumentGridPane extends GridPane {
 		add(checkBox, col, row);
 	}
 
-	private List<InstrumentTickCellNodes> createTickColumns(List<InstrumentTickQuarterNoteGrid> quarterNoteGrids, Instrument instrument,
-			InstrumentTickPositionEnum position) {
-		List<InstrumentTickCellNodes> childrenGrid = new LinkedList<>();
-		for (InstrumentTickQuarterNoteGrid quarterNoteGrid : quarterNoteGrids) {
-			childrenGrid.addAll(quarterNoteGrid.createRowCells(instrument, position));
-		}
-		return new ArrayList<>(childrenGrid);
-	}
-
 	private void highlightTick() {
-		int col = highlightedTickProperty().get();
-		for (InstrumentTickBackgroundPane[] instrumentTickBackgroundPanes : cellTable) {
-			for (int j = 0; j < instrumentTickBackgroundPanes.length; j++) {
-				if (j == col) {
-					instrumentTickBackgroundPanes[j].highlight();
-				} else {
-					instrumentTickBackgroundPanes[j].downplay();
+		if (cellTable != null) {
+			int col = highlightedTickProperty().get();
+			for (InstrumentTickBackgroundPane[] instrumentTickBackgroundPanes : cellTable) {
+				for (int j = 0; j < instrumentTickBackgroundPanes.length; j++) {
+					if (j == col) {
+						instrumentTickBackgroundPanes[j].highlight();
+					} else {
+						instrumentTickBackgroundPanes[j].downplay();
+					}
 				}
 			}
 		}

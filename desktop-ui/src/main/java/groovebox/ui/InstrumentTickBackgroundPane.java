@@ -1,6 +1,6 @@
 package groovebox.ui;
 
-import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.geometry.Pos;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -15,13 +15,13 @@ class InstrumentTickBackgroundPane extends StackPane {
 	private final InstrumentTickPositionEnum position;
 	private boolean highlighted = false;
 
-	InstrumentTickBackgroundPane(boolean leading, IntegerProperty velocityProperty, InstrumentTickPositionEnum position) {
+	InstrumentTickBackgroundPane(boolean leading, ObjectProperty<Integer> velocityProperty, InstrumentTickPositionEnum position) {
 		this.leading = leading;
 		this.position = position;
 
 		getChildren().add(velocityBar);
 		setVelocityBarWidth(velocityProperty.get());
-		velocityProperty.addListener((obs, oldVal, newVal) -> setVelocityBarWidth(newVal.intValue()));
+		velocityProperty.addListener((obs, oldVal, newVal) -> setVelocityBarWidth(newVal));
 		setAlignment(Pos.BOTTOM_LEFT);
 		defineStyle();
 	}

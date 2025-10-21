@@ -1,20 +1,18 @@
 package groovebox.ui;
 
-import groovebox.service.InstrumentDataApi;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import groovebox.ui.model.ShownInstrumentTickModel;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
 class InstrumentTickCheckBox extends CheckBox {
-	final IntegerProperty velocity = new SimpleIntegerProperty(100);
+	final ObjectProperty<Integer> velocity = new SimpleObjectProperty<>();
 
-	InstrumentTickCheckBox(InstrumentDataApi instrumentDataApi) {
-		selectedProperty().setValue(instrumentDataApi.isActive());
-		velocity.setValue(instrumentDataApi.getVelocity());
-		selectedProperty().addListener((event, oldValue, newValue) -> instrumentDataApi.setActive(newValue));
-		velocityProperty().addListener((event, oldValue, newValue) -> instrumentDataApi.setVelocity(velocity.getValue()));
+	public InstrumentTickCheckBox(ShownInstrumentTickModel tick) {
+		selectedProperty().bindBidirectional(tick.isActiveProperty());
+		velocityProperty().bindBidirectional(tick.velocityProperty());
 		setContextMenu(createContextMenu());
 	}
 
@@ -26,7 +24,7 @@ class InstrumentTickCheckBox extends CheckBox {
 		return contextMenu;
 	}
 
-	IntegerProperty velocityProperty() {
+	ObjectProperty<Integer> velocityProperty() {
 		return velocity;
 	}
 

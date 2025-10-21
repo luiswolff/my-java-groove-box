@@ -3,13 +3,10 @@ package groovebox.ui;
 import java.util.function.Supplier;
 
 import groovebox.service.BeatFactory;
-import groovebox.service.Beat;
-import groovebox.service.Phrase;
 import groovebox.service.SoundService;
-import groovebox.service.TickPosition;
-import javafx.animation.AnimationTimer;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import groovebox.ui.model.GrooveBoxModel;
+import groovebox.ui.timer.TickPositionTimer;
+import javafx.beans.property.BooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
@@ -36,25 +33,15 @@ public class GrooveBoxController {
 	@FXML
 	private PhrasePagination phrasePagination;
 
-
-	private final AnimationTimer timer = new AnimationTimer() {
-		@Override
-		public void handle(long now) {
-			TickPosition tickPosition = soundService.getSoundControl().getTickPosition();
-			if (tickPosition != null) {
-				grooveBoxModel.setHighlightedTick(tickPosition);
-			} else {
-				timer.stop();
-				grooveBoxModel.trackIsPaused();
-			}
-		}
-	};
-
 	private final SoundService soundService = new SoundService();
-	private final GrooveBoxModel grooveBoxModel = new GrooveBoxModel(soundService.getSoundControl());
+	private final GrooveBoxModel grooveBoxModel = new GrooveBoxModel(soundService);
+	private final TickPositionTimer tickPositionTimer =
+			new TickPositionTimer(grooveBoxModel.getSoundControlModel());
 
 	@FXML
 	public void initialize() {
+		grooveBoxModel.setBeat(BeatFactory.builder().build());
+
 		instrumentGridPane.apply(grooveBoxModel);
 		loopCountSpinner.apply(grooveBoxModel);
 		tempoSpinner.apply(grooveBoxModel);
@@ -63,30 +50,22 @@ public class GrooveBoxController {
 		playStopButton.apply(grooveBoxModel);
 		phrasePagination.apply(grooveBoxModel);
 
-		soundService.setBeat(grooveBoxModel.beatProperty().get());
 	}
 
 	@FXML
 	protected void onStartStopButtonClicked() {
-		if (soundService.isRunning()) {
-			soundService.stop();
-			timer.stop();
-			grooveBoxModel.trackIsPaused();
-		} else {
-			soundService.start();
-			timer.start();
-			grooveBoxModel.trackIsPlaying();
-		}
+		BooleanProperty booleanProperty = grooveBoxModel.getSoundControlModel().runningProperty();
+		booleanProperty.set(!booleanProperty.get());
 	}
 
 	@FXML
 	protected void onSampleBeatChanged(ActionEvent event) {
 		Object source = event.getSource();
-		Beat<ObservableList<Phrase>> beat = getBeat(source);
+		BeatFactory beat = getBeat(source);
 		grooveBoxModel.setBeat(beat);
 	}
 
-	private Beat<ObservableList<Phrase>> getBeat(Object source) {
+	private BeatFactory getBeat(Object source) {
 		Supplier<BeatFactory> beatSupplier;
 		if (source instanceof SampleBeatMenu) {
 			//noinspection unchecked
@@ -96,10 +75,8 @@ public class GrooveBoxController {
 			beatSupplier = (Supplier<BeatFactory>) ((SampleBeatMenu.SampleBeatMenuItem) source).getUserData();
 		}
 		BeatFactory beatFactory = beatSupplier.get();
-		Beat<ObservableList<Phrase>> beat = beatFactory.createBeat(FXCollections::observableArrayList);
-		soundService.setBeat(beat);
 		beatFactory.apply(soundService.getSoundControl());
-		return beat;
+		return beatFactory;
 	}
 
 	@FXML
@@ -114,6 +91,6 @@ public class GrooveBoxController {
 
 	public void close() {
 		soundService.close();
-		timer.stop();
+		tickPositionTimer.close();
 	}
 }

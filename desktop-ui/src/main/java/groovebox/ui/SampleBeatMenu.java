@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 
 import groovebox.service.BeatFactory;
 import groovebox.service.BeatSamples;
+import groovebox.ui.model.GrooveBoxModel;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.ListChangeListener;

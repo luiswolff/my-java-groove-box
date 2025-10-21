@@ -34,12 +34,19 @@ public class JavaMidiControlData {
 	}
 
 	public void setLoopCount(int count) {
-		this.lastLoopCount = count;
-		sequencer.setLoopCount(count);
+		if (!isLoopContinuously()) {
+			int sequencerLoopCount = count - 1;
+			this.lastLoopCount = sequencerLoopCount;
+			sequencer.setLoopCount(sequencerLoopCount);
+		}
 	}
 
 	public int getLoopCount() {
-		return sequencer.getLoopCount();
+		if (isLoopContinuously()) {
+			return lastLoopCount;
+		} else {
+			return sequencer.getLoopCount() + 1;
+		}
 	}
 
 	public float getTempoInBPM() {
@@ -57,5 +64,16 @@ public class JavaMidiControlData {
 
 	public boolean isRunning() {
 		return sequencer.isRunning();
+	}
+
+	public void setRunning(Boolean running) {
+		if (Boolean.FALSE.equals(running)) {
+			sequencer.stop();
+			sequencer.setTickPosition(0);
+		} else if (Boolean.TRUE.equals(running)) {
+			// for some reason the tempo is always reset when changing loop count
+			resetTempoInBPM();
+			sequencer.start();
+		}
 	}
 }

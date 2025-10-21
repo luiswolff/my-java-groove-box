@@ -2,7 +2,7 @@ package groovebox.ui;
 
 import java.util.Optional;
 
-import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Spinner;
@@ -18,7 +18,7 @@ class ChangeVelocityDialog extends Dialog<Integer> {
 		setResultConverter(b -> ButtonType.OK.equals(b) ? velocitySpinner.getValue() : null);
 	}
 
-	static void editVelocity(IntegerProperty velocityProperty) {
+	static void editVelocity(ObjectProperty<Integer> velocityProperty) {
 		ChangeVelocityDialog  dialog = new ChangeVelocityDialog(velocityProperty.getValue());
 		Optional<Integer> velocityResult = dialog.showAndWait();
 		velocityResult.ifPresent(velocityProperty::setValue);

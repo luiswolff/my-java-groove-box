@@ -52,4 +52,8 @@ public class SoundControl {
 	public boolean isRunning() {
 		return controlData.isRunning();
 	}
+
+	public void setRunning(Boolean running) {
+		controlData.setRunning(running);
+	}
 }

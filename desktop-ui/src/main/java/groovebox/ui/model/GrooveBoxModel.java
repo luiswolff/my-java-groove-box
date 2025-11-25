@@ -1,11 +1,14 @@
 package groovebox.ui.model;
 
+import java.util.List;
+
 import groovebox.service.BeatFactory;
 import groovebox.service.BeatSamples;
 import groovebox.service.SoundService;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
+import javafx.beans.property.MapProperty;
 import javafx.beans.property.ObjectProperty;
 
 public class GrooveBoxModel {
@@ -61,6 +64,10 @@ public class GrooveBoxModel {
 		return sampleBeatModel.sampleBeatFactoriesProperty();
 	}
 
+	public MapProperty<ShownPhraseRow, List<ShownInstrumentTickModel>> phraseGridCellsProperty() {
+		return shownPhraseModel.phraseGridCellsProperty();
+	}
+
 	public void setBeat(BeatFactory beatFactory) {
 		playedBeatModel.beatProperty().set(beatFactory.createBeat());
 	}
@@ -77,7 +84,4 @@ public class GrooveBoxModel {
 		return soundControlModel;
 	}
 
-	public ShownPhraseModel getShownPhraseModel() {
-		return shownPhraseModel;
-	}
 }

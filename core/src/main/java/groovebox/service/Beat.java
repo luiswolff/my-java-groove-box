@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 import groovebox.adapter.JavaMidiNote;
 import groovebox.adapter.JavaMidiSequence;
@@ -13,8 +14,12 @@ import groovebox.adapter.JavaMidiSequence;
 public class Beat {
 	private final JavaMidiSequence sequence = new JavaMidiSequence();
 	private final List<PhraseImpl> phrases = new ArrayList<>();
+	private final int noteCount;
+	private final int ticksPerNote;
 
-	public Beat() {
+	Beat(int noteCount, int ticksPerNote) {
+		this.noteCount = noteCount;
+		this.ticksPerNote = ticksPerNote;
 		addPhrase();
 	}
 
@@ -56,12 +61,7 @@ public class Beat {
 
 	private class PhraseImpl implements Phrase {
 		private int phrasePos = 0;
-		private final List<NoteImpl> notes = List.of(
-				new NoteImpl(0),
-				new NoteImpl(1),
-				new NoteImpl(2),
-				new NoteImpl(3)
-		);
+		private final List<NoteImpl> notes = IntStream.range(0, noteCount).mapToObj(NoteImpl::new).toList();
 
 		public PhraseImpl(int phrasePos) {
 			setPhrasePos(phrasePos);
@@ -82,12 +82,7 @@ public class Beat {
 		}
 
 		private class NoteImpl implements Note {
-			private final List<TickImpl> ticks = List.of(
-					new TickImpl(0),
-					new TickImpl(1),
-					new TickImpl(2),
-					new TickImpl(3)
-			);
+			private final List<TickImpl> ticks = IntStream.range(0, ticksPerNote).mapToObj(TickImpl::new).toList();
 			private final int notePos;
 
 			public NoteImpl(int notePos) {

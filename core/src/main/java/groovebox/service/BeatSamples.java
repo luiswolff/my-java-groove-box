@@ -20,7 +20,7 @@ public enum BeatSamples {
 			.withInstrumentPositions(Instrument.CLOSED_HI_HAT, 3, 1)
 			.withInstrumentPositions(Instrument.CRASH_CYMBAL_1, 0, 0)
 			.build()),
-	CLASSIC_HOUSE(() -> BeatFactory.builder()
+	CLASSIC_HOUSE(() -> BeatFactory.builder() // Ticks defined by AI (Microsoft Copilot)
 			.withTempoInBPM(128)
 			.withInstrumentPositions(Instrument.ACOUSTIC_BASS_DRUM, 0, 0)
 			.withInstrumentPositions(Instrument.ACOUSTIC_BASS_DRUM, 1, 0)
@@ -46,7 +46,7 @@ public enum BeatSamples {
 			.withInstrumentPositions(Instrument.SIDE_STICK, 1, 1)
 			.withInstrumentPositions(Instrument.SIDE_STICK, 3, 1)
 			.build()),
-	MELBOURNE_BOUNCE(() -> BeatFactory.builder()
+	MELBOURNE_BOUNCE(() -> BeatFactory.builder() // Ticks defined by AI (Microsoft Copilot)
 			.withTempoInBPM(135)
 			.withInstrumentPositions(Instrument.ACOUSTIC_BASS_DRUM, 0, 0)
 			.withInstrumentPositions(Instrument.ACOUSTIC_BASS_DRUM, 1, 0)
@@ -76,7 +76,7 @@ public enum BeatSamples {
 			.withInstrumentPositions(Instrument.LOW_FLOOR_TOM, 3, 2)
 			.withInstrumentPositions(Instrument.CRASH_CYMBAL_1, 0, 0)
 			.build()),
-	HIP_HOP(() -> BeatFactory.builder()
+	HIP_HOP(() -> BeatFactory.builder() // Ticks defined by AI (Microsoft Copilot)
 			.withTempoInBPM(85)
 			.withInstrumentPositions(Instrument.ACOUSTIC_BASS_DRUM, 0, 0)
 			.withInstrumentPositions(Instrument.ACOUSTIC_BASS_DRUM, 2, 2)
@@ -103,6 +103,31 @@ public enum BeatSamples {
 			.withInstrumentPositions(Instrument.LOW_TOM, 1, 2)
 			.withInstrumentPositions(Instrument.LOW_TOM, 3, 2)
 			.withInstrumentPositions(Instrument.CRASH_CYMBAL_1, 0, 0)
+			.build()),
+	STEP_RESOLUTION_3_4(() -> BeatFactory.builder()
+			.withStepResolution(3, 4)
+			.build()),
+	CLASSICAL_WALTZ(() -> BeatFactory.builder() // Ticks defined by AI (Microsoft Copilot)
+			.withStepResolution(3, 4)
+			.withTempoInBPM(84)
+			.withInstrumentPositions(Instrument.ACOUSTIC_BASS_DRUM, 0, 0).withVelocity(120)
+			.withInstrumentPositions(Instrument.ACOUSTIC_BASS_DRUM, 1, 0).withVelocity(60)
+			.withInstrumentPositions(Instrument.ACOUSTIC_BASS_DRUM, 2, 0).withVelocity(60)
+			.withInstrumentPositions(Instrument.ACOUSTIC_SNARE, 1, 0)
+			.withInstrumentPositions(Instrument.ACOUSTIC_SNARE, 2, 0)
+			.withInstrumentPositions(Instrument.HAND_CLAP, 1, 0)
+			.withInstrumentPositions(Instrument.HAND_CLAP, 2, 0)
+			.withInstrumentPositions(Instrument.LOW_FLOOR_TOM, 0, 0)
+			.withInstrumentPositions(Instrument.LOW_FLOOR_TOM, 2, 0)
+			.withInstrumentPositions(Instrument.CLOSED_HI_HAT, 0, 0)
+			.withInstrumentPositions(Instrument.CLOSED_HI_HAT, 0, 2)
+			.withInstrumentPositions(Instrument.CLOSED_HI_HAT, 1, 0)
+			.withInstrumentPositions(Instrument.CLOSED_HI_HAT, 1, 2)
+			.withInstrumentPositions(Instrument.CLOSED_HI_HAT, 2, 0)
+			.withInstrumentPositions(Instrument.CLOSED_HI_HAT, 2, 2)
+			.withInstrumentPositions(Instrument.PEDAL_HI_HAT, 0, 0)
+			.withInstrumentPositions(Instrument.PEDAL_HI_HAT, 1, 0)
+			.withInstrumentPositions(Instrument.PEDAL_HI_HAT, 2, 0)
 			.build()),
 	;
 	private final Supplier<BeatFactory> beatSupplier;

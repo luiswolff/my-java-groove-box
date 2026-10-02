@@ -27,12 +27,19 @@ public class BeatFactory {
 					.getNotes().get(instrumentPosition.noteIndex())
 					.getTicks().get(instrumentPosition.tickIndex())
 					.getInstrumentData(instrumentPosition.instrument());
+			if (instrumentPosition.velocity() != null) {
+				instrumentDataApi.setVelocity(instrumentPosition.velocity());
+			}
 			instrumentDataApi.setActive(true);
 		}
 		return beat;
 	}
 
-	private record InstrumentPosition(Instrument instrument, int noteIndex, int tickIndex) {}
+	private record InstrumentPosition(Instrument instrument, int noteIndex, int tickIndex, Integer velocity) {
+		private InstrumentPosition withVelocity(Integer velocity) {
+			return new InstrumentPosition(instrument(), noteIndex(), tickIndex(), velocity);
+		}
+	}
 
 	public static Builder builder() {
 		return new Builder();
@@ -57,7 +64,16 @@ public class BeatFactory {
 		}
 
 		public Builder withInstrumentPositions(Instrument instrument, int noteIndex, int tickIndex) {
-			this.instrumentPositions.add(new InstrumentPosition(instrument, noteIndex, tickIndex));
+			this.instrumentPositions.add(new InstrumentPosition(instrument, noteIndex, tickIndex, null));
+			return this;
+		}
+
+		public Builder withVelocity(Integer velocity) {
+			InstrumentPosition position = this.instrumentPositions.getLast();
+			if (position != null) { // Maybe adjust Builder so that this method is only allowed with InstrumentPosition was called
+				this.instrumentPositions.remove(position);
+				this.instrumentPositions.add(position.withVelocity(velocity));
+			}
 			return this;
 		}
 

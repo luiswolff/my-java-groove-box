@@ -12,9 +12,7 @@ class JavaMidiEvent {
 	private boolean addedToTrack = false;
 	JavaMidiEvent(Track track, int type, int instrument, int velocity, long tickVal) throws InvalidMidiDataException {
 		this.track = track;
-		messageEventOn = new ShortMessage();
-		messageEventOn.setMessage(type, 9, instrument, velocity);
-		this.eventOn = new MidiEvent(messageEventOn, tickVal);
+		this.eventOn = new MidiEvent(messageEventOn = new ShortMessage(type, 9, instrument, velocity), tickVal);
 	}
 
 	public boolean isAddedToTrack() {

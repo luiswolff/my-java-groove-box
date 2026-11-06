@@ -14,11 +14,11 @@ public class JavaMidiControlData {
 	}
 
 	public long getTickPosition() {
-		return sequencer.getTickPosition();
+		return PulsUtil.toTick(sequencer.getTickPosition());
 	}
 
 	public void setTickPosition(long tick) {
-		sequencer.setTickPosition(tick);
+		sequencer.setTickPosition(PulsUtil.toPuls(tick));
 	}
 
 	public boolean isLoopContinuously() {

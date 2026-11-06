@@ -9,10 +9,13 @@ class JavaMidiEvent {
 	private final Track track;
 	private final MidiEvent eventOn;
 	private final ShortMessage messageEventOn;
+	private long tickVal;
 	private boolean addedToTrack = false;
+
 	JavaMidiEvent(Track track, int type, int instrument, int velocity, long tickVal) throws InvalidMidiDataException {
 		this.track = track;
-		this.eventOn = new MidiEvent(messageEventOn = new ShortMessage(type, 9, instrument, velocity), tickVal);
+		this.eventOn =
+				new MidiEvent(messageEventOn = new ShortMessage(type, 9, instrument, velocity), PulsUtil.toPuls(this.tickVal = tickVal));
 	}
 
 	public boolean isAddedToTrack() {
@@ -29,11 +32,11 @@ class JavaMidiEvent {
 	}
 
 	public long getTickVal() {
-		return eventOn.getTick();
+		return tickVal;
 	}
 
 	public void setTickVal(long tickVal) {
-		eventOn.setTick(tickVal);
+		eventOn.setTick(PulsUtil.toPuls(this.tickVal = tickVal));
 	}
 
 	public int getVelocity() {

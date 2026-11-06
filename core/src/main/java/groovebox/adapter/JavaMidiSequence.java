@@ -14,7 +14,7 @@ public class JavaMidiSequence {
 
 	public JavaMidiSequence() {
 		try {
-			this.sequence = new Sequence(Sequence.PPQ, 4);
+			this.sequence = new Sequence(Sequence.PPQ, PulsUtil.getResolution());
 			this.track = this.sequence.createTrack();
 		} catch (InvalidMidiDataException e) {
 			throw new IllegalStateException(e);
@@ -22,7 +22,7 @@ public class JavaMidiSequence {
 	}
 
 	public void setTrackEnd(int tickVal) {
-		track.get(track.size() - 1).setTick(tickVal);
+		track.get(track.size() - 1).setTick(PulsUtil.toPuls(tickVal));
 	}
 
 	public JavaMidiNote getNote(int instrument, int tickVal) {
